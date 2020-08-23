@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://perhydrol.github.io</id>
     <title>过氧化氢</title>
-    <updated>2020-08-23T19:08:44.888Z</updated>
+    <updated>2020-08-23T19:10:27.030Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://perhydrol.github.io"/>
     <link rel="self" href="https://perhydrol.github.io/atom.xml"/>
@@ -10,6 +10,13 @@
     <logo>https://perhydrol.github.io/images/avatar.png</logo>
     <icon>https://perhydrol.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, 过氧化氢</rights>
+    <entry>
+        <title type="html"><![CDATA[新的生活，新的起点，新的目标]]></title>
+        <id>https://perhydrol.github.io/post/xin-de-sheng-huo-xin-de-qi-dian-xin-de-mu-biao/</id>
+        <link href="https://perhydrol.github.io/post/xin-de-sheng-huo-xin-de-qi-dian-xin-de-mu-biao/">
+        </link>
+        <updated>2020-08-23T19:10:01.000Z</updated>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Hello Gridea]]></title>
         <id>https://perhydrol.github.io/post/hello-gridea/</id>
