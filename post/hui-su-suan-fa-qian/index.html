@@ -1,0 +1,285 @@
+<html>
+<head>
+    <meta charset="utf-8"/>
+<meta name="description" content=""/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+<title>回溯算法-前 | 过氧化氢</title>
+
+<link rel="shortcut icon" href="https://perhydrol.github.io/favicon.ico?v=1600866481109">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://perhydrol.github.io/styles/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script>
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            过氧化氢
+        </div>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+                <div class="nav-item">
+                    
+                        <a href="/" class="menu gt-a-link">
+                            首页
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/archives" class="menu gt-a-link">
+                            归档
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/tags" class="menu gt-a-link">
+                            标签
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/post/about" class="menu gt-a-link">
+                            关于
+                        </a>
+                    
+                </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1600866481109" action="/search/index.html">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    回溯算法-前
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2020-09-21 ·
+                    </time>
+                    
+                        <a href="https://perhydrol.github.io/tag/uhrLwJxEw/" class="post-tags">
+                            # C\C++
+                        </a>
+                    
+                        <a href="https://perhydrol.github.io/tag/czjLn_4vN/" class="post-tags">
+                            # 算法
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <p>本文大量参考 《回溯算法解题套路框架》 ,<a href="https://labuladong.gitbook.io/algo/suan-fa-si-wei-xi-lie/hui-su-suan-fa-xiang-jie-xiu-ding-ban">还请先阅读此博客</a></p>
+<p>目标：<br>
+解决 <a href="https://leetcode-cn.com/problems/subsets/">LeetCode 78.子集</a></p>
+<!-- more -->
+<p>题目一到手，第一个想法就是递归，所以我先尝试递归解决</p>
+<h2 id="递归">递归</h2>
+<ol>
+<li>
+<p>分析问题<br>
+以简单的 【 1 , 2  】为例。<br>
+【1，2】的子集有【null】，【1】，【2】，【1，2】<br>
+【1】的子集为【null】，【1】<br>
+【2】是【null】，【2】<br>
+显然，【1，2】的子集就是在【1】子集的背后追加【2】的子集即可。<br>
+<img src="http://fp1.fghrsh.net/2020/09/21/9c706fae460cba8c5fe8d279ddadab2a.md.png" alt="2a.md.png" loading="lazy"><br>
+所以，我们得出结论：数列的子集由最后一个数的子集加上前面的所有子集得来。</p>
+</li>
+<li>
+<p>设计函数<br>
+因此，我们需要一个函数 subsets ，可以返回数列（size=n）的前 n-1 个数的子集，方便加上尾数。<br>
+下面，我们需要思考有哪些操作是需要重复。首先，我们发现：对于【1，2】来说 2 是最后一个数，而 3 是【1，2，3】的最后一个数，4 是【1，2，3，4】的..... 哦！** 剔除尾数的操作是重复的 **<br>
+然后，** 在子集添加尾数的操作也是重复的 **。还有吗？ 好像没有了，也许剩下的操作会在编码中发现。<br>
+那么，第一个数的子集如何得到呢？<br>
+你也许没有发现，第一个数的子集可以由 【null】加上自己得到，也就是说数列【1】可以看成【null，1】，并且【null】的子集就是本身！<br>
+最后一个问题，基线条件是什么？递归必然需要一个基线条件，我认为当数列为空是个不错的条件，并且返回【null】刚好可以计算【1】<br>
+整理一下：</p>
+</li>
+<li>
+<p>当数列为空时返回</p>
+</li>
+<li>
+<p>剔除尾数</p>
+</li>
+<li>
+<p>添加尾数</p>
+</li>
+</ol>
+<h2 id="编码">编码</h2>
+<pre><code class="language-c++">vector&lt;vector&lt;int&gt;&gt; subsets(vector&lt;int&gt;&amp;nums)
+{
+    // 当数列为空时返回 
+    if(nums.empty())
+        return {};
+
+    // 剔除尾数
+    int mantissa=nums.back(); 
+    nums.pop_back();
+
+    //保存前面的数的子集
+    vector&lt;vector&lt;int&gt;&gt; res;
+    res=subsets(nums);
+
+    //添加尾数
+    int size=res.size()
+    for(int i=0;i&lt;size;++i){
+        res.push_back(res[i]);
+        res.back().push_back(mantissa);
+    }
+    return res;
+}
+</code></pre>
+<h1 id="回溯算法">回溯算法</h1>
+<p>虽然递归可以解决问题,在 LeetCode （大概击败 68%）上也有不错的表现。但还是比较慢，下面要介绍的回溯算法，可以大幅提高性能（击败100%达成）<br>
+<img src="http://fp1.fghrsh.net/2020/09/21/f9789565b8eb40b0b5316b8c60b5d54f.md.png" alt="f9789565.md.png" loading="lazy"></p>
+<h2 id="算法">算法</h2>
+<p><a href="https://labuladong.gitbook.io/algo/suan-fa-si-wei-xi-lie/hui-su-suan-fa-xiang-jie-xiu-ding-ban">《回溯算法解题套路框架》</a>里讲的十分清晰了，但经过一番思考，我认为他还有一点没说透，不变的是框架，那变的是什么呢？</p>
+<h2 id="决策树和遍历方式">决策树和遍历方式</h2>
+<p>其实每道题都是决策树和(或)遍历方式在改变，对于<a href="https://leetcode-cn.com/problems/subsets/">LeetCode 78.子集</a>和<a href="https://leetcode-cn.com/problems/permutations/">LeetCode 46.全排列</a>来说，决策数倒是没有变<img src="http://fp1.fghrsh.net/2020/09/21/05fdc7b1a9d25a6a0183a1d6b4a17d31.md.png" alt="05fdc7b1a9d25a6a0183a1d6b4a17d31.md.png" loading="lazy"><br>
+但遍历方式变了。</p>
+<p>一开始，我认为在全排列的基础上简单修改就可以得到结果。</p>
+<pre><code class="language-c++">void subsets_track(vector&lt;int&gt; &amp;nums, vector&lt;int&gt; &amp;track,
+		   vector&lt;vector&lt;int&gt; &gt; &amp;res)
+{
+	if (track.size() == nums.size())
+		return;
+	for (int i = 0; i &lt; nums.size(); ++i) {
+		if (find(track.cbegin(), track.cend(), nums[i]) != track.cend())
+			continue;
+		add(res, track);//将track并入结果，同时检查是否重复
+		track.emplace_back(nums[i]);
+		subsets_track(nums, track, res);
+		track.pop_back();
+	}
+}
+</code></pre>
+<p>一番努力后，结果是超出时间限定........</p>
+<h2 id="分析">分析</h2>
+<p>好吧，观察一下决策树<img src="http://fp1.fghrsh.net/2020/09/22/f1e7735a6bf0d4b9842f4d5e17ba3ed2.png" alt="f1e7735a6bf0d4b9842f4d5e17ba3ed2.png" loading="lazy"><br>
+和全排列不同，我们不需要遍历整个决策树，已经记录的数字不需要再次访问。那么我们可以从循环条件入手，毕竟循环结构在控制同一层的遍历分支。</p>
+<ul>
+<li>循环<br>
+有时灵感来的很快，我突然发现只需添加一个表示已遍历数的下表形参(index)，问题就可以解决。代码如下：</li>
+</ul>
+<pre><code class="language-c++">void backTrack(vector&lt;int&gt; &amp;nums, int index, vector&lt;int&gt; &amp;track,
+	       vector&lt;vector&lt;int&gt; &gt; &amp;res)
+{
+	if (index == nums.size())
+		return;
+	for (int i = index; i &lt; nums.size(); ++i) {
+		track.push_back(nums[i]);
+		res.push_back(track);
+		backTrack(nums, i + 1, track, res);
+		track.pop_back();
+	}
+	return;
+}
+
+vector&lt;vector&lt;int&gt; &gt; subsets(vector&lt;int&gt; &amp;nums)
+{
+	if (nums.empty())
+		return {};
+	vector&lt;vector&lt;int&gt; &gt; res;
+	vector&lt;int&gt; track;
+	res.push_back({}); //空集需要自己添加
+	backTrack(nums, 0, track, res);
+	return res;
+}
+
+</code></pre>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://perhydrol.github.io/post/xin-de-sheng-huo-xin-de-qi-dian-xin-de-mu-biao/" class="post-title gt-a-link">
+                    新的生活，新的起点，新的目标  
+                </a>
+            </div>
+        
+
+        
+
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first"><strong>好吃( •̀ ω •́ )✧=高兴ヾ(≧▽≦*)o<strong></div>
+    <div class="social-container">
+        
+            
+                <a href="https://github.com/perhydrol" target="_blank">
+                    <i class="fab fa-github gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <div class="footer-info">
+        
+    </div>
+    <div>
+        Theme by <a href="https://imhanjie.com/" target="_blank">imhanjie</a>, Powered by <a
+                href="https://github.com/getgridea/gridea" target="_blank">Gridea | <a href="https://perhydrol.github.io/atom.xml" target="_blank">RSS</a></a>
+    </div>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+    </div>
+</div>
+</body>
+</html>
