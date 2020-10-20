@@ -4,7 +4,7 @@
 <meta name="description" content=""/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-<title>Gridea | 过氧化氢</title>
+<title>回溯算法-中 | 过氧化氢</title>
 
 <link rel="shortcut icon" href="https://perhydrol.github.io/favicon.ico?v=1603161982800">
 
@@ -25,11 +25,11 @@
 
 
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
 </head>
 <body>
 <div class="main gt-bg-theme-color-first">
-    <div class="main-content">
-        <nav class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand-lg">
     <div class="navbar-brand">
         <img class="user-avatar" src="/images/avatar.png" alt="头像">
         <div class="site-name gt-c-content-color-first">
@@ -85,51 +85,99 @@
     </div>
 </nav>
 
-        <div class="current-tag-container">
-            <h2 class="title gt-c-content-color-first">
-                #Gridea
-            </h2>
-        </div>
-        <div class="post-list-container">
-    <div class="post-inner">
-        
-            <div class="post gt-bg-theme-color-second">
-                <div class="post-left">
-                    <div>
-                        
-                        <a href="https://perhydrol.github.io/post/hello-gridea/">
-                            <span class="post-title gt-c-content-color-first">Hello Gridea</span>
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    回溯算法-中
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2020-09-23 ·
+                    </time>
+                    
+                        <a href="https://perhydrol.github.io/tag/G_4K6mVgJ/" class="post-tags">
+                            # 编程笔记
                         </a>
-                    </div>
-                    <div class="gt-post-content post-abstract gt-c-content-color-second">
-                        <p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
-✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
-
-                    </div>
-                    <div class="post-info">
-                        <time class="post-time gt-c-content-color-first">
-                            发布于 · 2018-12-12 ·
-                        </time>
-                        
-                            <a href="https://perhydrol.github.io/tag/V5uS-6JQR/" class="post-tag">
-                                # Gridea
-                            </a>
-                        
-                    </div>
+                    
+                        <a href="https://perhydrol.github.io/tag/czjLn_4vN/" class="post-tags">
+                            # 算法
+                        </a>
+                    
                 </div>
-                
-                    <a href="https://perhydrol.github.io/post/hello-gridea/" class="post-feature-image"
-                       style="background-image: url('https://perhydrol.github.io/post-images/hello-gridea.png')">
-                    </a>
-                
-            </div>
+                <div class="post-content">
+                    <p>上一篇:<a href="https://perhydrol.github.io/post/hui-su-suan-fa-qian/">回溯算法-前</a></p>
+<h2 id="目标">目标</h2>
+<p>解决：</p>
+<ul>
+<li><a href="https://leetcode-cn.com/problems/generate-parentheses/">LeetCode 22.括号生成</a></li>
+<li><a href="https://leetcode-cn.com/problems/letter-combinations-of-a-phone-number/">LeetCode 17. 电话号码的字母组合</a></li>
+</ul>
+<h2 id="电话号码的字母组合">电话号码的字母组合</h2>
+<p>以往我们遍历决策树一般是同一个数组反复遍历,但这题每层对应不同的数组.下面以 {[a,b,c],[d,e,f]} 为例<br>
+<img src="http://fp1.fghrsh.net/2020/09/21/2613cf96f4e9be1f5257a80856b7e9db.md.png" alt="2613cf96f4e9be1f5257a80856b7e9db.md.png" loading="lazy"><br>
+这里要复习一下，for 循环结构是负责一层的不同选项,而递归意味着进入下一层，而这次我们要根据当前深度更改 for 循环遍历的数组。伪代码如下：</p>
+<pre><code class="language-c++">void backTrack(.....)
+{
+    ......
+    for(int i=0;i&lt;数组.szie();++i){
+        track.push_back(数组[i]);
+        backTrack(........);
+        tack.pop_back();
+    }
+}
+</code></pre>
+<h2 id="分析">分析</h2>
+<p>题目要求传入的是 string 类型的“数字”，我们根据它自行组合要求的数组。这里我们使用数据结构——字典 来完成任务。</p>
+<pre><code class="language-c++">map&lt;char, string&gt; Map = { { '2', &quot;abc&quot; }, { '3', &quot;def&quot; }, { '4', &quot;ghi&quot; },
+			  { '5', &quot;jkl&quot; }, { '6', &quot;mno&quot; }, { '7', &quot;pqrs&quot; },
+			  { '8', &quot;tuv&quot; }, { '9', &quot;wxyz&quot; } };
+</code></pre>
+<p>同时，我们用一个 int n 来表示当前深度。最后，这次遍历不需要走完整个树，只需访问至指定深度即可。</p>
+<h2 id="实现">实现</h2>
+<pre><code class="language-c++">map&lt;char, string&gt; Map = { { '2', &quot;abc&quot; }, { '3', &quot;def&quot; }, { '4', &quot;ghi&quot; },
+			  { '5', &quot;jkl&quot; }, { '6', &quot;mno&quot; }, { '7', &quot;pqrs&quot; },
+			  { '8', &quot;tuv&quot; }, { '9', &quot;wxyz&quot; } };
+void backTrack(int n, vector&lt;string&gt; &amp;res, string &amp;track, string &amp;digits)
+{
+    //几个数字对应几个字母
+	if (n == digits.size()) {
+		res.push_back(track);
+		return;
+	}
+	for (int i = 0; i &lt; Map[digits[n]].length(); ++i) {
+		track.push_back(Map[digits[n]][i]);
+		backTrack(n + 1, res, track, digits);
+		track.pop_back();
+	}
+	return;
+}
+
+vector&lt;string&gt; letterCombinations(string digits)
+{
+	if(digits.empty())
+		return {};
+	//开始回溯算法
+	vector&lt;string&gt; res;
+	string track;
+	backTrack(0, res, track, digits);
+	return res;
+}
+</code></pre>
+<h1 id="22括号生成">22.括号生成</h1>
+<p>这此题目发生了很大的变化</p>
+
+                </div>
+            </article>
+        </div>
+
         
-    </div>
-</div>
-        <div class="pagination-container">
-    
-    
-</div>
+
+        
+
+        
+
+        
 
         <div class="site-footer gt-c-content-color-first">
     <div class="slogan gt-c-content-color-first"><strong>好吃( •̀ ω •́ )✧=高兴ヾ(≧▽≦*)o<strong></div>
