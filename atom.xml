@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://perhydrol.github.io</id>
     <title>过氧化氢</title>
-    <updated>2020-10-20T02:46:30.618Z</updated>
+    <updated>2020-11-07T12:54:22.747Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://perhydrol.github.io"/>
     <link rel="self" href="https://perhydrol.github.io/atom.xml"/>
@@ -10,6 +10,13 @@
     <logo>https://perhydrol.github.io/images/avatar.png</logo>
     <icon>https://perhydrol.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, 过氧化氢</rights>
+    <entry>
+        <title type="html"><![CDATA[【动态规划】阿克曼函数(ackerman)]]></title>
+        <id>https://perhydrol.github.io/post/dong-tai-gui-hua-a-ke-man-han-shu-ackerman/</id>
+        <link href="https://perhydrol.github.io/post/dong-tai-gui-hua-a-ke-man-han-shu-ackerman/">
+        </link>
+        <updated>2020-11-07T11:23:38.000Z</updated>
+    </entry>
     <entry>
         <title type="html"><![CDATA[回溯算法-前]]></title>
         <id>https://perhydrol.github.io/post/hui-su-suan-fa-qian/</id>

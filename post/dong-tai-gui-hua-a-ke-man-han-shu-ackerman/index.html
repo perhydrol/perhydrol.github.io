@@ -4,7 +4,7 @@
 <meta name="description" content=""/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-<title>算法 | 过氧化氢</title>
+<title>【动态规划】阿克曼函数(ackerman) | 过氧化氢</title>
 
 <link rel="shortcut icon" href="https://perhydrol.github.io/favicon.ico?v=1604753658152">
 
@@ -25,11 +25,11 @@
 
 
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
 </head>
 <body>
 <div class="main gt-bg-theme-color-first">
-    <div class="main-content">
-        <nav class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand-lg">
     <div class="navbar-brand">
         <img class="user-avatar" src="/images/avatar.png" alt="头像">
         <div class="site-name gt-c-content-color-first">
@@ -85,89 +85,121 @@
     </div>
 </nav>
 
-        <div class="current-tag-container">
-            <h2 class="title gt-c-content-color-first">
-                #算法
-            </h2>
-        </div>
-        <div class="post-list-container">
-    <div class="post-inner">
-        
-            <div class="post gt-bg-theme-color-second">
-                <div class="post-left">
-                    <div>
-                        
-                        <a href="https://perhydrol.github.io/post/dong-tai-gui-hua-a-ke-man-han-shu-ackerman/">
-                            <span class="post-title gt-c-content-color-first">【动态规划】阿克曼函数(ackerman)</span>
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    【动态规划】阿克曼函数(ackerman)
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2020-11-07 ·
+                    </time>
+                    
+                        <a href="https://perhydrol.github.io/tag/G_4K6mVgJ/" class="post-tags">
+                            # 编程笔记
                         </a>
-                    </div>
-                    <div class="gt-post-content post-abstract gt-c-content-color-second">
-                        
-                    </div>
-                    <div class="post-info">
-                        <time class="post-time gt-c-content-color-first">
-                            发布于 · 2020-11-07 ·
-                        </time>
-                        
-                            <a href="https://perhydrol.github.io/tag/G_4K6mVgJ/" class="post-tag">
-                                # 编程笔记
-                            </a>
-                        
-                            <a href="https://perhydrol.github.io/tag/lJ-_-u8O-/" class="post-tag">
-                                # 动态规划
-                            </a>
-                        
-                            <a href="https://perhydrol.github.io/tag/czjLn_4vN/" class="post-tag">
-                                # 算法
-                            </a>
-                        
-                    </div>
+                    
+                        <a href="https://perhydrol.github.io/tag/lJ-_-u8O-/" class="post-tags">
+                            # 动态规划
+                        </a>
+                    
+                        <a href="https://perhydrol.github.io/tag/czjLn_4vN/" class="post-tags">
+                            # 算法
+                        </a>
+                    
                 </div>
-                
-                    <a href="https://perhydrol.github.io/post/dong-tai-gui-hua-a-ke-man-han-shu-ackerman/" class="post-feature-image"
-                       style="background-image: url('http://fp1.fghrsh.net/2020/05/31/410d7423bf9113327c7a53bb2289c85b.png')">
-                    </a>
-                
-            </div>
-        
-            <div class="post gt-bg-theme-color-second">
-                <div class="post-left">
-                    <div>
-                        
-                        <a href="https://perhydrol.github.io/post/hui-su-suan-fa-qian/">
-                            <span class="post-title gt-c-content-color-first">回溯算法-前</span>
-                        </a>
-                    </div>
-                    <div class="gt-post-content post-abstract gt-c-content-color-second">
-                        <p>本文大量参考 《回溯算法解题套路框架》 ,<a href="https://labuladong.gitbook.io/algo/suan-fa-si-wei-xi-lie/hui-su-suan-fa-xiang-jie-xiu-ding-ban">还请先阅读此博客</a></p>
-<p>目标：<br>
-解决 <a href="https://leetcode-cn.com/problems/subsets/">LeetCode 78.子集</a></p>
+                <div class="post-content">
+                    <h1 id="阿克曼函数ackerman">阿克曼函数(ackerman)</h1>
+<p>先上函数公式：<img src="https://perhydrol.github.io/post-images/1604749806149.png" alt="" loading="lazy"><br>
+一看到公式，我第一反应——简单！递归搞定。结果，我不太想说，总之今天我们用动态规划解决它。<br>
+说到动态规划，脑中只有一个字<strong>难</strong>。要我说不难嘛，肯定是骗人的，但不考虑状态压缩时我们是可以解决的。好，开始咯~</p>
+<h3 id="第一步">第一步</h3>
+<p>在纸上画个表格,：<img src="https://perhydrol.github.io/post-images/1604751860112.png" alt="" loading="lazy"></p>
+<h3 id="将表格填充完">将表格填充完</h3>
+<p>根据公式将函数填充完。当然，3可以不用算啊😄  <img src="https://perhydrol.github.io/post-images/1604753133709.png" alt="" loading="lazy"></p>
+<h3 id="转移方程">转移方程</h3>
+<p>n : 列, c: 任何大于 n 数, r : 行<br>
+A ( r, c ) = A ( r, n ) + ( c – n )*r</p>
+<h3 id="实现">实现</h3>
+<pre><code class="language-c++">#include &lt;stdio.h&gt;
 
-                    </div>
-                    <div class="post-info">
-                        <time class="post-time gt-c-content-color-first">
-                            发布于 · 2020-09-21 ·
-                        </time>
-                        
-                            <a href="https://perhydrol.github.io/tag/uhrLwJxEw/" class="post-tag">
-                                # C\C++
-                            </a>
-                        
-                            <a href="https://perhydrol.github.io/tag/czjLn_4vN/" class="post-tag">
-                                # 算法
-                            </a>
-                        
-                    </div>
+using namespace std;
+
+void clear(int** nums, int n) {
+  for (int i = 0; i &lt; n; i++) {
+    delete[] nums[i];
+    nums[i] = nullptr;
+  }
+  delete[] nums;
+  nums = nullptr;
+}
+
+int ack(int m, int n) {
+//初始化数组
+  int** cache = new int*[m + 1];
+  for (int i = 0; i &lt; m + 1; ++i) cache[i] = new int[n + 1]{0};
+
+  for (int rows = 0; rows &lt; m + 1; ++rows)
+    for (int cows = 0; cows &lt; n + 1; ++cows) {
+    //m=0
+      if (rows == 0)
+        cache[rows][cows] = cows + 1;
+      else {
+          // m&gt;0,n=0
+        if (cows == 0) {
+          cache[rows][cows] = cache[rows - 1][1];
+        } else {
+          int r = rows - 1;
+          int c = cache[rows][cows - 1];
+          //r可能为0
+          if (r == 0) {
+            cache[rows][cows] = c + 1;
+          } else {
+              //直接使用以前算过的值
+            if (c &lt;= n) {
+              cache[rows][cows] = cache[r][cache[rows][cows - 1]];
+            } else {
+                // 转移方程
+              cache[rows][cows] = (c - n) * r + cache[r][n];
+            }
+          }
+        }
+      }
+    }
+  int ans = cache[m][n];
+  clear(cache, m);
+  return ans;
+}
+
+int main() {
+  int m = 0, n = 0;
+  while (~scanf(&quot;%d%d&quot;, &amp;m, &amp;n)) {
+    int ans = ack(m, n);
+    printf(&quot;%d\n&quot;, ans);
+  }
+  return 0;
+}
+</code></pre>
+
                 </div>
-                
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://perhydrol.github.io/post/hui-su-suan-fa-qian/" class="post-title gt-a-link">
+                    回溯算法-前
+                </a>
             </div>
         
-    </div>
-</div>
-        <div class="pagination-container">
-    
-    
-</div>
+
+        
+
+        
+
+        
 
         <div class="site-footer gt-c-content-color-first">
     <div class="slogan gt-c-content-color-first"><strong>好吃( •̀ ω •́ )✧=高兴ヾ(≧▽≦*)o<strong></div>
