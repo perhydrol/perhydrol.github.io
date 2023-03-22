@@ -1,0 +1,707 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/logo-32x32.png">
+  <link rel="icon" href="/img/logo-32x32.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Hydrogen">
+  <meta name="keywords" content="博客,blog">
+  
+    <meta name="description" content="简介K-Means 算法是一种十分常见的聚类分析方法，可将数据分为指定的几个集群。下面简述一下算法步骤。 1.分配第一次中心在数据中挑选几个点作为不同集群的中心，初次挑选的中心会影响最后的分组结果。如下图">
+<meta property="og:type" content="article">
+<meta property="og:title" content="提取图片主要色调-KMeans算法">
+<meta property="og:url" content="https://blog.hydrogenroom.icu/post/2c6e351a.html">
+<meta property="og:site_name" content="Hydrogen&#39;s Blog">
+<meta property="og:description" content="简介K-Means 算法是一种十分常见的聚类分析方法，可将数据分为指定的几个集群。下面简述一下算法步骤。 1.分配第一次中心在数据中挑选几个点作为不同集群的中心，初次挑选的中心会影响最后的分组结果。如下图">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s3.bmp.ovh/imgs/2022/05/02/138b2a8616503882.png">
+<meta property="og:image" content="https://s3.bmp.ovh/imgs/2022/05/02/4918839e9804c0f8.png">
+<meta property="og:image" content="https://s3.bmp.ovh/imgs/2022/05/02/f266de869362c93d.png">
+<meta property="og:image" content="https://s3.bmp.ovh/imgs/2022/05/02/7ea6a60254de97c0.png">
+<meta property="article:published_time" content="2022-05-02T04:33:14.000Z">
+<meta property="article:modified_time" content="2022-11-14T03:09:35.000Z">
+<meta property="article:author" content="Hydrogen">
+<meta property="article:tag" content="算法">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://s3.bmp.ovh/imgs/2022/05/02/138b2a8616503882.png">
+  
+  
+  
+  <title>提取图片主要色调-KMeans算法 - Hydrogen&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.hydrogenroom.icu","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":30,"cursorChar":"","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Hydrogen&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bar.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="提取图片主要色调-KMeans算法"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-05-02 12:33" pubdate>
+          2022年5月2日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          15 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">提取图片主要色调-KMeans算法</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>K-Means 算法是一种十分常见的聚类分析方法，可将数据分为指定的几个集群。下面简述一下算法步骤。</p>
+<h2 id="1-分配第一次中心"><a href="#1-分配第一次中心" class="headerlink" title="1.分配第一次中心"></a>1.分配第一次中心</h2><p>在数据中挑选几个点作为不同集群的中心，初次挑选的中心会影响最后的分组结果。如下图</p>
+<span id="more"></span>
+<p><img src="https://s3.bmp.ovh/imgs/2022/05/02/138b2a8616503882.png" srcset="/img/loading.gif" lazyload alt="初次挑选"></p>
+<h2 id="2-计算属于不同中心的数据"><a href="#2-计算属于不同中心的数据" class="headerlink" title="2.计算属于不同中心的数据"></a>2.计算属于不同中心的数据</h2><p>通常使用距离作为判断依据，数据点属于离它最近的中心<br><img src="https://s3.bmp.ovh/imgs/2022/05/02/4918839e9804c0f8.png" srcset="/img/loading.gif" lazyload>  </p>
+<h2 id="3-移动中心"><a href="#3-移动中心" class="headerlink" title="3.移动中心"></a>3.移动中心</h2><p>将属于同一个中心的数据化为一集群，计算集群的新中心。我选择集群的平均值中心作为新中心，并将原中心移动到新的中心。<br><img src="https://s3.bmp.ovh/imgs/2022/05/02/f266de869362c93d.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="4-迭代"><a href="#4-迭代" class="headerlink" title="4.迭代"></a>4.迭代</h2><p>重复 2 和 3 步。直到发现中心不再变化，完成。<br><img src="https://s3.bmp.ovh/imgs/2022/05/02/7ea6a60254de97c0.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h2><p>我使用 Python 简单实现了一个例子，实际使用过程中更倾向直接调用 SciPY 的现成实现。</p>
+<h3 id="生成随机数据"><a href="#生成随机数据" class="headerlink" title="生成随机数据"></a>生成随机数据</h3><p>在这简单填充随机生成的数据进行测试。  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">k=<span class="hljs-number">0</span><br>date=np.random.randint(<span class="hljs-number">0</span>,<span class="hljs-number">225</span>,size=[<span class="hljs-number">100</span>,<span class="hljs-number">2</span>])<br>dateList=[datePoint(i[<span class="hljs-number">0</span>],i[<span class="hljs-number">1</span>],<span class="hljs-number">0</span>) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> date]<br>pointlist=[[random.randint(<span class="hljs-number">0</span>,<span class="hljs-number">225</span>),random.randint(<span class="hljs-number">0</span>,<span class="hljs-number">225</span>)] <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(k)]<br></code></pre></td></tr></table></figure>
+<p><code>k</code> 为中心点个数；<code>date</code>为随机生成的数据；<code>dateList</code> 保存数据与其所属中心点；<code>pointlist</code> 是中心，使用随机数初始化。  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">datePoint</span>:<br>  x=y=<span class="hljs-number">0</span><br>  point=<span class="hljs-number">0</span><br>  <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self,X,Y,Point=<span class="hljs-number">0</span></span>) -&gt; <span class="hljs-literal">None</span>:<br>      self.x=X<br>      self.y=Y<br>      self.point=Point<br></code></pre></td></tr></table></figure>
+
+<p>我定义了一个类 <code>dateList</code> 与<code>datePoint.point</code>来储存数据点与它所属的中心。  </p>
+<h3 id="计算数据点所属的中心"><a href="#计算数据点所属的中心" class="headerlink" title="计算数据点所属的中心"></a>计算数据点所属的中心</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">calPoint</span>(<span class="hljs-params">dateList:<span class="hljs-built_in">list</span>,pointList:<span class="hljs-built_in">list</span></span>):<br>  <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> dateList:<br>    flag=<span class="hljs-number">10000000</span> <span class="hljs-comment">#一个足够大的数字</span><br>    <span class="hljs-keyword">for</span> ii <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(pointList)):<br>      <span class="hljs-keyword">if</span>(flag&gt;((i.x-pointList[ii][<span class="hljs-number">0</span>])**<span class="hljs-number">2</span>+(i.y-pointList[ii][<span class="hljs-number">1</span>])**<span class="hljs-number">2</span>)):<br>        flag=(i.x-pointList[ii][<span class="hljs-number">0</span>])**<span class="hljs-number">2</span>+(i.y-pointList[ii][<span class="hljs-number">1</span>])**<span class="hljs-number">2</span><br>        i.point=ii<br></code></pre></td></tr></table></figure>
+
+<p>遍历每一个数据点，在第二个循环中检查每一个中心到该点的距离，选择最小的那个。这里使用了一个足够大的数字保证第一次计算的距离会小于这个假想的中心点。  </p>
+<h3 id="移动中心点"><a href="#移动中心点" class="headerlink" title="移动中心点"></a>移动中心点</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">change_point</span>(<span class="hljs-params">dateList:<span class="hljs-built_in">list</span>,pointList:<span class="hljs-built_in">list</span></span>):<br>  new_point_list=[[<span class="hljs-number">0</span>,<span class="hljs-number">0</span>] <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(k)]<br>  nums_point=[<span class="hljs-number">0</span> <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(k)]<br>  <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> dateList:<br>    new_point_list[i.point][<span class="hljs-number">0</span>]+=i.x<br>    new_point_list[i.point][<span class="hljs-number">1</span>]+=i.y<br>    nums_point[i.point]+=<span class="hljs-number">1</span><br>  <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(k):<br>    pr=new_point_list[i]<br>    pr[<span class="hljs-number">0</span>]=<span class="hljs-built_in">int</span>(pr[<span class="hljs-number">0</span>]/nums_point[i])<br>    pr[<span class="hljs-number">1</span>]=<span class="hljs-built_in">int</span>(pr[<span class="hljs-number">1</span>]/nums_point[i])<br>  <span class="hljs-keyword">if</span> new_point_list!=pointList:<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(k):<br>      pointList[i][<span class="hljs-number">0</span>]=new_point_list[i][<span class="hljs-number">0</span>]<br>      pointList[i][<span class="hljs-number">1</span>]=new_point_list[i][<span class="hljs-number">1</span>]<br>    <span class="hljs-built_in">print</span>(pointList)<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span><br>  <span class="hljs-keyword">else</span>:<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span><br></code></pre></td></tr></table></figure>
+
+<p>先定义了一个数组 <code>new_point_list</code> 来储存新计算的中心点，然后 <code>nums_point</code> 储存属于每一个中心点的数据个数以方便最后计算平均值。在我这个精度下，点取整数即可。最后一个 <code>if</code> 用于判断中心发生了改变，就返回 <code>True</code> 反之为 <code>False</code>.</p>
+<h3 id="一些收尾工作"><a href="#一些收尾工作" class="headerlink" title="一些收尾工作"></a>一些收尾工作</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">while</span> change_point(dateList,pointlist):<br>  calPoint(dateList,pointlist)<br><span class="hljs-built_in">print</span>(pointlist)<br></code></pre></td></tr></table></figure>
+<p>不停的迭代 2 和 3 步，直到中心不再移动。最后输出结果即可。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>[1].<a target="_blank" rel="noopener" href="https://aishack.in/tutorials/kmeans-clustering/">https://aishack.in/tutorials/kmeans-clustering/</a></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%AE%97%E6%B3%95/">#算法</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>提取图片主要色调-KMeans算法</div>
+      <div>https://blog.hydrogenroom.icu/post/2c6e351a.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Hydrogen</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年5月2日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="NC - 非商业性使用">
+                    <i class="iconfont icon-nc"></i>
+                  </span>
+                </a>
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="SA - 相同方式共享">
+                    <i class="iconfont icon-sa"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/post/90465f91.html" title="Openssl生成并使用自签名CA证书（V3）">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Openssl生成并使用自签名CA证书（V3）</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/post/11014277.html" title="使用加密的虚拟硬盘安全存储学习资料">
+                        <span class="hidden-mobile">使用加密的虚拟硬盘安全存储学习资料</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="gitalk-container"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#gitalk-container', function() {
+      Fluid.utils.createCssLink('/css/gitalk.css')
+      Fluid.utils.createScript('https://lib.baomitu.com/gitalk/1.8.0/gitalk.min.js', function() {
+        var options = Object.assign(
+          {"clientID":"d4c0d1456ab21f6fe3fe","clientSecret":"2623a5588ff9cd3f8e2509b796b7379a51b5ce8c","repo":"perhydrol.github.io","owner":null,"admin":["perhydrol"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
+          {
+            id: '7532a4c87aae32ebeeb538b9e1d4e7df'
+          }
+        )
+        var gitalk = new Gitalk(options);
+        gitalk.render('gitalk-container');
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

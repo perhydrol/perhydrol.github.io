@@ -1,0 +1,726 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/logo-32x32.png">
+  <link rel="icon" href="/img/logo-32x32.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Hydrogen">
+  <meta name="keywords" content="博客,blog">
+  
+    <meta name="description" content="Adguard Home 是 Windows 下最好的 DNS 管理器！会看见这篇文章，想必你对 Adguard Home 的功能已经有所了解，但我要泼一盆冷水， Adguard Home 的广告过滤功能比较鸡肋，效果不如浏览器的 uBlock Origin 插件好。但如果将其当作一个 DNS 管理器，它将十分优秀。本文主要介绍如何将 Adguard Home 部署在 Windows 下并为本机提">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Adguard Home 设置">
+<meta property="og:url" content="https://blog.hydrogenroom.icu/post/ce8e32b9.html">
+<meta property="og:site_name" content="Hydrogen&#39;s Blog">
+<meta property="og:description" content="Adguard Home 是 Windows 下最好的 DNS 管理器！会看见这篇文章，想必你对 Adguard Home 的功能已经有所了解，但我要泼一盆冷水， Adguard Home 的广告过滤功能比较鸡肋，效果不如浏览器的 uBlock Origin 插件好。但如果将其当作一个 DNS 管理器，它将十分优秀。本文主要介绍如何将 Adguard Home 部署在 Windows 下并为本机提">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s3.bmp.ovh/imgs/2022/09/29/eea15e9eae345f58.png">
+<meta property="og:image" content="https://s3.bmp.ovh/imgs/2022/09/29/5f98fdce140013c7.png">
+<meta property="og:image" content="https://s3.bmp.ovh/imgs/2022/09/29/1328ec16d4029d8b.png">
+<meta property="og:image" content="https://s3.bmp.ovh/imgs/2022/09/29/a56ff7dec97a56e1.png">
+<meta property="og:image" content="https://s3.bmp.ovh/imgs/2022/09/29/a4391d4dc0860f91.png">
+<meta property="og:image" content="https://s3.bmp.ovh/imgs/2022/09/29/80bee65439cc057c.png">
+<meta property="og:image" content="https://s3.bmp.ovh/imgs/2022/09/29/3d2771b4a2d150b1.png">
+<meta property="og:image" content="https://s3.bmp.ovh/imgs/2022/09/29/e70fb333adcf0d0e.png">
+<meta property="og:image" content="https://s3.bmp.ovh/imgs/2022/09/29/42c16ecf60c06269.png">
+<meta property="og:image" content="https://s3.bmp.ovh/imgs/2022/09/29/08dddfddb7e47d96.png">
+<meta property="article:published_time" content="2022-09-28T14:05:30.000Z">
+<meta property="article:modified_time" content="2022-11-14T03:09:35.000Z">
+<meta property="article:author" content="Hydrogen">
+<meta property="article:tag" content="折腾">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://s3.bmp.ovh/imgs/2022/09/29/eea15e9eae345f58.png">
+  
+  
+  
+  <title>Adguard Home 设置 - Hydrogen&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"blog.hydrogenroom.icu","root":"/","version":"1.9.4","typing":{"enable":true,"typeSpeed":30,"cursorChar":"","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Hydrogen&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/bar.jpg') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Adguard Home 设置"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-09-28 22:05" pubdate>
+          2022年9月28日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          1.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          16 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Adguard Home 设置</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>Adguard Home 是 Windows 下最好的 DNS 管理器！会看见这篇文章，想必你对 Adguard Home 的功能已经有所了解，但我要泼一盆冷水， Adguard Home 的广告过滤功能比较鸡肋，效果不如浏览器的 uBlock Origin 插件好。但如果将其当作一个 DNS 管理器，它将十分优秀。本文主要介绍如何将 Adguard Home 部署在 Windows 下并为本机提供 DNS 服务。</p>
+<span id="more"></span>
+
+<p>在官方<a target="_blank" rel="noopener" href="https://github.com/AdguardTeam/AdGuardHome/releases">Github 仓库</a>中选择适合 Windows 的版本，或者点击这下载<a target="_blank" rel="noopener" href="https://github.com/AdguardTeam/AdGuardHome/releases/download/v0.107.13/AdGuardHome_windows_amd64.zip">AdGuardHome_windows_amd64.zip(v0.107)</a>。解压至一个好找的地方(别放在桌面，设置完后一不小心删了会无法联网)</p>
+<p>文件如下：</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs awk">Mode                 LastWriteTime         Length Name<br>----                 -------------         ------ ----<br>-----           <span class="hljs-number">2022</span><span class="hljs-regexp">/9/</span><span class="hljs-number">14</span>    <span class="hljs-number">22</span>:<span class="hljs-number">46</span>       <span class="hljs-number">33306112</span> AdGuardHome.exe<br>-----           <span class="hljs-number">2022</span><span class="hljs-regexp">/9/</span><span class="hljs-number">14</span>    <span class="hljs-number">22</span>:<span class="hljs-number">46</span>            <span class="hljs-number">587</span> AdGuardHome.exe.sig<br>-----           <span class="hljs-number">2022</span><span class="hljs-regexp">/9/</span><span class="hljs-number">14</span>    <span class="hljs-number">22</span>:<span class="hljs-number">46</span>          <span class="hljs-number">51429</span> CHANGELOG.md<br>-----           <span class="hljs-number">2022</span><span class="hljs-regexp">/9/</span><span class="hljs-number">14</span>    <span class="hljs-number">22</span>:<span class="hljs-number">46</span>          <span class="hljs-number">35149</span> LICENSE.txt<br>-----           <span class="hljs-number">2022</span><span class="hljs-regexp">/9/</span><span class="hljs-number">14</span>    <span class="hljs-number">22</span>:<span class="hljs-number">46</span>          <span class="hljs-number">23266</span> README.md<br></code></pre></td></tr></table></figure>
+
+<p>首次运行需要以管理员身份运行 AdGuardHome.exe，等命令行跑完。直到出现类似下面的命令</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">[<span class="hljs-keyword">info</span>] Service control action: install<br>[<span class="hljs-keyword">info</span>] Service has been started<br>[<span class="hljs-keyword">info</span>] Almost ready!<br>AdGuard Home <span class="hljs-keyword">is</span> successfully installed <span class="hljs-keyword">and</span> will automatically <span class="hljs-keyword">start</span> <span class="hljs-keyword">on</span> boot ．<br>There are a few more things that must be configured <span class="hljs-keyword">before</span> you can use it.<br>lick <span class="hljs-keyword">on</span> the link below <span class="hljs-keyword">and</span> follow the Installation Wizard steps finish setup.<br>[<span class="hljs-keyword">info</span>] AdGuard Home <span class="hljs-keyword">is</span> available <span class="hljs-keyword">on</span> the f0110 丽 ng addresses ：<br>[<span class="hljs-keyword">info</span>] GO <span class="hljs-keyword">to</span> http://<span class="hljs-number">192.168</span><span class="hljs-number">.11</span>:<span class="hljs-number">3000</span><br>[<span class="hljs-keyword">info</span>] Go <span class="hljs-keyword">to</span> http://[::<span class="hljs-number">1</span>]:<span class="hljs-number">3000</span><br>[<span class="hljs-keyword">info</span>] Go <span class="hljs-keyword">to</span> http://<span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">3000</span><br>[<span class="hljs-keyword">info</span>] Action install has been done successfully <span class="hljs-keyword">on</span> windows-service<br></code></pre></td></tr></table></figure>
+
+<h2 id="Adguard-Home-设置"><a href="#Adguard-Home-设置" class="headerlink" title="Adguard Home 设置"></a>Adguard Home 设置</h2><p>在浏览器中输入 <a target="_blank" rel="noopener" href="http://127.0.0.1:3000/">http://127.0.0.1:3000</a> 即可进入 Adguard Home 的管理页面，首先设置账号和密码，一路下一步即可，然后进入“DNS 设置”。</p>
+<p><img src="https://s3.bmp.ovh/imgs/2022/09/29/eea15e9eae345f58.png" srcset="/img/loading.gif" lazyload></p>
+<p>在上游DNS服务器中填入以下内容，即可设置阿里DNS与腾讯DNS为上游 DoH 解析，同时 DoH 的 DNS 可以有效防止运营商的 DNS 污染。</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs awk">https:<span class="hljs-regexp">//</span>dns.alidns.com/dns-query<br>https:<span class="hljs-regexp">//</span>doh.pub/dns-query<br></code></pre></td></tr></table></figure>
+
+<p>在 Bootstrap DNS 中填入，使用阿里DNS和GoogleDNS作为 DoH 服务器解析 DNS。</p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">223</span>.<span class="hljs-number">5</span>.<span class="hljs-number">5</span>.<span class="hljs-number">5</span><br><span class="hljs-attribute">8</span>.<span class="hljs-number">8</span>.<span class="hljs-number">8</span>.<span class="hljs-number">8</span><br><span class="hljs-attribute">2001</span>:<span class="hljs-number">4860</span>:<span class="hljs-number">4860</span>::<span class="hljs-number">8888</span><br><span class="hljs-attribute">2400</span>:<span class="hljs-number">3200</span>::<span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="https://s3.bmp.ovh/imgs/2022/09/29/5f98fdce140013c7.png" srcset="/img/loading.gif" lazyload></p>
+<p>同时强烈推荐你丢弃 IPv6 解析，目前许多老小区的网络设施无法使用 IPv6，防止 Windows 使用 IPv6 去访问目标服务器。</p>
+<p><img src="https://s3.bmp.ovh/imgs/2022/09/29/1328ec16d4029d8b.png" srcset="/img/loading.gif" lazyload></p>
+<p>其余默认即可。</p>
+<p>DNS 过滤名单如下添加即可，太多不但拖慢速度而且效果不明显。</p>
+<p><img src="https://s3.bmp.ovh/imgs/2022/09/29/a56ff7dec97a56e1.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="Windows-设置"><a href="#Windows-设置" class="headerlink" title="Windows 设置"></a>Windows 设置</h2><p>Adguard Home 的自带的设置指导已经十分详细。对于 Windows 步骤如下。</p>
+<ol>
+<li>通过开始菜单或 Windows 搜索功能打开控制面板。</li>
+<li>点击进入「网络和 Internet」后，再次点击进入「网络和共享中心」</li>
+<li>在窗口的左侧点击「更改适配器设置」。</li>
+<li>选择您正在连接的网络设备，右击它并选择「属性”」。</li>
+<li>在列表中找到「Internet 协议版本 4 (TCP&#x2F;IPv4)」，选择并再次点击「属性」。</li>
+<li>选择「使用下面的 DNS 服务器地址」，并输入您的 AdGuard Home 服务器地址（127.0.0.1）。</li>
+</ol>
+<p><img src="https://s3.bmp.ovh/imgs/2022/09/29/a4391d4dc0860f91.png" srcset="/img/loading.gif" lazyload></p>
+<h3 id="开机自启"><a href="#开机自启" class="headerlink" title="开机自启"></a>开机自启</h3><p>在计划任务中新建任务，按下图填入（用户名要填你自己电脑登陆的用户名！！）<br><img src="https://s3.bmp.ovh/imgs/2022/09/29/80bee65439cc057c.png" srcset="/img/loading.gif" lazyload><br><img src="https://s3.bmp.ovh/imgs/2022/09/29/3d2771b4a2d150b1.png" srcset="/img/loading.gif" lazyload><br>程序就选择 Adguard Home.exe<br><img src="https://s3.bmp.ovh/imgs/2022/09/29/e70fb333adcf0d0e.png" srcset="/img/loading.gif" lazyload><br><img src="https://s3.bmp.ovh/imgs/2022/09/29/42c16ecf60c06269.png" srcset="/img/loading.gif" lazyload><br><img src="https://s3.bmp.ovh/imgs/2022/09/29/08dddfddb7e47d96.png" srcset="/img/loading.gif" lazyload></p>
+<p>完成</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E6%8A%98%E8%85%BE/">#折腾</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Adguard Home 设置</div>
+      <div>https://blog.hydrogenroom.icu/post/ce8e32b9.html</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Hydrogen</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年9月28日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="NC - 非商业性使用">
+                    <i class="iconfont icon-nc"></i>
+                  </span>
+                </a>
+              
+                <a target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="SA - 相同方式共享">
+                    <i class="iconfont icon-sa"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/post/4828448e.html" title="Linux(Debian)-常见加固技巧（SSH）">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Linux(Debian)-常见加固技巧（SSH）</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/post/e678ff2a.html" title="实现分配固定大小内存池-C++">
+                        <span class="hidden-mobile">实现分配固定大小内存池-C++</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="gitalk-container"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#gitalk-container', function() {
+      Fluid.utils.createCssLink('/css/gitalk.css')
+      Fluid.utils.createScript('https://lib.baomitu.com/gitalk/1.8.0/gitalk.min.js', function() {
+        var options = Object.assign(
+          {"clientID":"d4c0d1456ab21f6fe3fe","clientSecret":"2623a5588ff9cd3f8e2509b796b7379a51b5ce8c","repo":"perhydrol.github.io","owner":null,"admin":["perhydrol"],"language":"zh-CN","labels":["Gitalk"],"perPage":10,"pagerDirection":"last","distractionFreeMode":false,"createIssueManually":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token"},
+          {
+            id: 'd459e8c4bef45c6b09cfb86e0afdfd5b'
+          }
+        )
+        var gitalk = new Gitalk(options);
+        gitalk.render('gitalk-container');
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
