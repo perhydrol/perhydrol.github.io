@@ -2,6 +2,24 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://blog.hydrogenroom.icu/post/b5385ca.html</loc>
+    
+    <lastmod>2023-05-24</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.hydrogenroom.icu/post/6d140ecb.html</loc>
+    
+    <lastmod>2023-05-06</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://blog.hydrogenroom.icu/post/82d6fc97.html</loc>
     
     <lastmod>2023-03-25</lastmod>
@@ -166,7 +184,7 @@
 
   <url>
     <loc>https://blog.hydrogenroom.icu/</loc>
-    <lastmod>2023-03-25</lastmod>
+    <lastmod>2023-05-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -174,49 +192,56 @@
   
   <url>
     <loc>https://blog.hydrogenroom.icu/tags/%E6%8A%98%E8%85%BE/</loc>
-    <lastmod>2023-03-25</lastmod>
+    <lastmod>2023-05-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.hydrogenroom.icu/tags/LaTeX/</loc>
-    <lastmod>2023-03-25</lastmod>
+    <lastmod>2023-05-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.hydrogenroom.icu/tags/%E9%9A%8F%E6%89%8B%E8%AE%B0/</loc>
-    <lastmod>2023-03-25</lastmod>
+    <lastmod>2023-05-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.hydrogenroom.icu/tags/%E7%AE%97%E6%B3%95/</loc>
-    <lastmod>2023-03-25</lastmod>
+    <lastmod>2023-05-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.hydrogenroom.icu/tags/%E6%9D%82%E9%A1%B9/</loc>
-    <lastmod>2023-03-25</lastmod>
+    <lastmod>2023-05-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.hydrogenroom.icu/tags/%E5%B7%A5%E7%A8%8B/</loc>
-    <lastmod>2023-03-25</lastmod>
+    <lastmod>2023-05-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>https://blog.hydrogenroom.icu/tags/%E8%B4%A2%E5%8A%A1%E7%AE%A1%E7%90%86/</loc>
-    <lastmod>2023-03-25</lastmod>
+    <lastmod>2023-05-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.hydrogenroom.icu/tags/%E8%BF%90%E7%AD%B9%E5%AD%A6/</loc>
+    <lastmod>2023-05-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
