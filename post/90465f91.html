@@ -115,7 +115,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
-<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.0.0"></head>
 
 
 <body>
@@ -331,13 +331,13 @@
 
 <p><code>countryName_default</code>是国家代码<br><code>organizationName_default</code>是证书机构的名称<br><code>commonName_default</code>是机构的友好名称<br>其他的可以不改</p>
 <h3 id="生成CA证书"><a href="#生成CA证书" class="headerlink" title="生成CA证书"></a>生成CA证书</h3><p>生成 CA 证书密钥  </p>
-<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs gradle">openssl genrsa -out .<span class="hljs-regexp">/demoCA/</span><span class="hljs-keyword">private</span>/cakey.pem <span class="hljs-number">2048</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ada">openssl genrsa -<span class="hljs-keyword">out</span> ./demoCA/<span class="hljs-keyword">private</span>/cakey.pem <span class="hljs-number">2048</span><br></code></pre></td></tr></table></figure>
 
 <p>生成 CA 证书</p>
-<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs gradle">openssl req -<span class="hljs-keyword">new</span> -x509 -key .<span class="hljs-regexp">/demoCA/</span><span class="hljs-keyword">private</span><span class="hljs-regexp">/cakey.pem -out ./</span>demoCA/cacert.pem -days <span class="hljs-number">3650</span> -config CA.cnf<br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">openssl req -new -x509 -key ./demoCA/private/cakey.pem -out ./demoCA/cacert.pem -days 3650 -config CA.cnf<br></code></pre></td></tr></table></figure>
 
 <p>转化为 <code>cer</code>文件（可选）</p>
-<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">openssl x509 -inform PEM -<span class="hljs-keyword">in</span> .<span class="hljs-regexp">/demoCA/</span>cacert.pem -outform DER -out .<span class="hljs-regexp">/demoCA/</span>CA.cer<br></code></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">openssl x509 -inform PEM -<span class="hljs-keyword">in</span> ./demoCA/cacert.pem -outform DER -out ./demoCA/CA.cer<br></code></pre></td></tr></table></figure>
 
 <h2 id="签发服务器证书"><a href="#签发服务器证书" class="headerlink" title="签发服务器证书"></a>签发服务器证书</h2><p>服务器证书的文件结构比较自由，命名也随意。我取为 test，下面配置服务器的配置文件。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">touch</span> test.cnf<br></code></pre></td></tr></table></figure>
@@ -363,7 +363,7 @@
 <p>完成！<br>文件结构如下</p>
 <figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs stylus">test<br>├── CA<span class="hljs-selector-class">.cnf</span><br>├── demoCA<br>│   ├── CA<span class="hljs-selector-class">.cer</span><br>│   ├── cacert<span class="hljs-selector-class">.pem</span><br>│   ├── index<span class="hljs-selector-class">.txt</span><br>│   ├── index<span class="hljs-selector-class">.txt</span><span class="hljs-selector-class">.attr</span><br>│   ├── index<span class="hljs-selector-class">.txt</span><span class="hljs-selector-class">.old</span><br>│   ├── newcerts<br>│   │   └── <span class="hljs-number">01</span><span class="hljs-selector-class">.pem</span><br>│   ├── private<br>│   │   └── cakey<span class="hljs-selector-class">.pem</span><br>│   ├── serial<br>│   └── serial<span class="hljs-selector-class">.old</span><br>├── my<br>│   ├── test<span class="hljs-selector-class">.crt</span><br>│   ├── test<span class="hljs-selector-class">.csr</span><br>│   └── test<span class="hljs-selector-class">.pem</span><br>└── test<span class="hljs-selector-class">.cnf</span><br><br></code></pre></td></tr></table></figure>
 
-<h2 id="参考-amp-引用"><a href="#参考-amp-引用" class="headerlink" title="参考&amp;引用"></a>参考&amp;引用</h2><p>[1].<a target="_blank" rel="noopener" href="https://2heng.xin/2018/12/16/your-own-ca-with-openssl/">https://2heng.xin/2018/12/16/your-own-ca-with-openssl/</a><br>这文章写的太好了，我只是略作改动<br>[2].<a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/azure/application-gateway/self-signed-certificates">https://docs.microsoft.com/zh-cn/azure/application-gateway/self-signed-certificates</a><br>生成 V1 的证书看微软的文档就够了</p>
+<h2 id="参考-引用"><a href="#参考-引用" class="headerlink" title="参考&amp;引用"></a>参考&amp;引用</h2><p>[1].<a target="_blank" rel="noopener" href="https://2heng.xin/2018/12/16/your-own-ca-with-openssl/">https://2heng.xin/2018/12/16/your-own-ca-with-openssl/</a><br>这文章写的太好了，我只是略作改动<br>[2].<a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/azure/application-gateway/self-signed-certificates">https://docs.microsoft.com/zh-cn/azure/application-gateway/self-signed-certificates</a><br>生成 V1 的证书看微软的文档就够了</p>
 
                 
               </div>
