@@ -16,21 +16,18 @@
   <meta name="author" content="Hydrogen">
   <meta name="keywords" content="博客,blog,计算机,管理学,运筹学">
   
-    <meta name="description" content="简介 K-Means 算法是一种十分常见的聚类分析方法，可将数据分为指定的几个集群。下面简述一下算法步骤。 ## 1.分配第一次中心 在数据中挑选几个点作为不同集群的中心，初次挑选的中心会影响最后的分组结果。如下图">
+    <meta name="description" content="简介 K-Means 算法是一种十分常见的聚类分析方法，可将数据分为指定的几个集群。下面简述一下算法步骤。 1.分配第一次中心 在数据中挑选几个点作为不同集群的中心，初次挑选的中心会影响最后的分组结果。如下图">
 <meta property="og:type" content="article">
 <meta property="og:title" content="提取图片主要色调-KMeans算法">
 <meta property="og:url" content="https://blog.hydrogenroom.icu/post/2c6e351a.html">
 <meta property="og:site_name" content="Hydrogen&#39;s Blog">
-<meta property="og:description" content="简介 K-Means 算法是一种十分常见的聚类分析方法，可将数据分为指定的几个集群。下面简述一下算法步骤。 ## 1.分配第一次中心 在数据中挑选几个点作为不同集群的中心，初次挑选的中心会影响最后的分组结果。如下图">
+<meta property="og:description" content="简介 K-Means 算法是一种十分常见的聚类分析方法，可将数据分为指定的几个集群。下面简述一下算法步骤。 1.分配第一次中心 在数据中挑选几个点作为不同集群的中心，初次挑选的中心会影响最后的分组结果。如下图">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://s3.bmp.ovh/imgs/2022/05/02/f266de869362c93d.png">
-<meta property="og:image" content="https://s3.bmp.ovh/imgs/2022/05/02/7ea6a60254de97c0.png">
 <meta property="article:published_time" content="2022-05-02T04:33:14.000Z">
-<meta property="article:modified_time" content="2022-11-14T03:09:35.000Z">
+<meta property="article:modified_time" content="2024-04-20T01:11:15.744Z">
 <meta property="article:author" content="Hydrogen">
 <meta property="article:tag" content="算法">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://s3.bmp.ovh/imgs/2022/05/02/f266de869362c93d.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
@@ -319,22 +316,28 @@
                 
                 <h2 id="简介">简介</h2>
 <p>K-Means
-算法是一种十分常见的聚类分析方法，可将数据分为指定的几个集群。下面简述一下算法步骤。
-## 1.分配第一次中心<br />
-在数据中挑选几个点作为不同集群的中心，初次挑选的中心会影响最后的分组结果。如下图
+算法是一种十分常见的聚类分析方法，可将数据分为指定的几个集群。下面简述一下算法步骤。</p>
+<h2 id="分配第一次中心">1.分配第一次中心</h2>
+<p>在数据中挑选几个点作为不同集群的中心，初次挑选的中心会影响最后的分组结果。如下图
 <span id="more"></span> <img
 src="https://s3.bmp.ovh/imgs/2022/05/02/138b2a8616503882.png" srcset="/img/loading.gif" lazyload
-alt="初次挑选" /> ## 2.计算属于不同中心的数据
-通常使用距离作为判断依据，数据点属于离它最近的中心 <img
-src="https://s3.bmp.ovh/imgs/2022/05/02/4918839e9804c0f8.png" srcset="/img/loading.gif" lazyload /><br />
-## 3.移动中心
-将属于同一个中心的数据化为一集群，计算集群的新中心。我选择集群的平均值中心作为新中心，并将原中心移动到新的中心。<br />
-<img src="https://s3.bmp.ovh/imgs/2022/05/02/f266de869362c93d.png" srcset="/img/loading.gif" lazyload /> ##
-4.迭代 重复 2 和 3 步。直到发现中心不再变化，完成。<br />
-<img src="https://s3.bmp.ovh/imgs/2022/05/02/7ea6a60254de97c0.png" srcset="/img/loading.gif" lazyload /> ##
-具体实现 我使用 Python 简单实现了一个例子，实际使用过程中更倾向直接调用
-SciPY 的现成实现。 ### 生成随机数据<br />
-在这简单填充随机生成的数据进行测试。</p>
+alt="初次挑选" /></p>
+<h2 id="计算属于不同中心的数据">2.计算属于不同中心的数据</h2>
+<p>通常使用距离作为判断依据，数据点属于离它最近的中心 <img
+src="https://s3.bmp.ovh/imgs/2022/05/02/4918839e9804c0f8.png" srcset="/img/loading.gif" lazyload /></p>
+<h2 id="移动中心">3.移动中心</h2>
+<p>将属于同一个中心的数据化为一集群，计算集群的新中心。我选择集群的平均值中心作为新中心，并将原中心移动到新的中心。<br />
+<img
+src="https://s3.bmp.ovh/imgs/2022/05/02/f266de869362c93d.png" srcset="/img/loading.gif" lazyload /></p>
+<h2 id="迭代">4.迭代</h2>
+<p>重复 2 和 3 步。直到发现中心不再变化，完成。<br />
+<img
+src="https://s3.bmp.ovh/imgs/2022/05/02/7ea6a60254de97c0.png" srcset="/img/loading.gif" lazyload /></p>
+<h2 id="具体实现">具体实现</h2>
+<p>我使用 Python 简单实现了一个例子，实际使用过程中更倾向直接调用 SciPY
+的现成实现。</p>
+<h3 id="生成随机数据">生成随机数据</h3>
+<p>在这简单填充随机生成的数据进行测试。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">k=<span class="hljs-number">0</span><br>date=np.random.randint(<span class="hljs-number">0</span>,<span class="hljs-number">225</span>,size=[<span class="hljs-number">100</span>,<span class="hljs-number">2</span>])<br>dateList=[datePoint(i[<span class="hljs-number">0</span>],i[<span class="hljs-number">1</span>],<span class="hljs-number">0</span>) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> date]<br>pointlist=[[random.randint(<span class="hljs-number">0</span>,<span class="hljs-number">225</span>),random.randint(<span class="hljs-number">0</span>,<span class="hljs-number">225</span>)] <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(k)]<br></code></pre></td></tr></table></figure>
 <p><code>k</code>
 为中心点个数；<code>date</code>为随机生成的数据；<code>dateList</code>
@@ -342,17 +345,20 @@ SciPY 的现成实现。 ### 生成随机数据<br />
 是中心，使用随机数初始化。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">datePoint</span>:<br>  x=y=<span class="hljs-number">0</span><br>  point=<span class="hljs-number">0</span><br>  <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self,X,Y,Point=<span class="hljs-number">0</span></span>) -&gt; <span class="hljs-literal">None</span>:<br>      self.x=X<br>      self.y=Y<br>      self.point=Point<br></code></pre></td></tr></table></figure>
 <p>我定义了一个类 <code>dateList</code>
-与<code>datePoint.point</code>来储存数据点与它所属的中心。<br />
-### 计算数据点所属的中心<br />
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">calPoint</span>(<span class="hljs-params">dateList:<span class="hljs-built_in">list</span>,pointList:<span class="hljs-built_in">list</span></span>):<br>  <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> dateList:<br>    flag=<span class="hljs-number">10000000</span> <span class="hljs-comment">#一个足够大的数字</span><br>    <span class="hljs-keyword">for</span> ii <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(pointList)):<br>      <span class="hljs-keyword">if</span>(flag&gt;((i.x-pointList[ii][<span class="hljs-number">0</span>])**<span class="hljs-number">2</span>+(i.y-pointList[ii][<span class="hljs-number">1</span>])**<span class="hljs-number">2</span>)):<br>        flag=(i.x-pointList[ii][<span class="hljs-number">0</span>])**<span class="hljs-number">2</span>+(i.y-pointList[ii][<span class="hljs-number">1</span>])**<span class="hljs-number">2</span><br>        i.point=ii<br></code></pre></td></tr></table></figure></p>
-<p>遍历每一个数据点，在第二个循环中检查每一个中心到该点的距离，选择最小的那个。这里使用了一个足够大的数字保证第一次计算的距离会小于这个假想的中心点。<br />
-### 移动中心点 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">change_point</span>(<span class="hljs-params">dateList:<span class="hljs-built_in">list</span>,pointList:<span class="hljs-built_in">list</span></span>):<br>  new_point_list=[[<span class="hljs-number">0</span>,<span class="hljs-number">0</span>] <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(k)]<br>  nums_point=[<span class="hljs-number">0</span> <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(k)]<br>  <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> dateList:<br>    new_point_list[i.point][<span class="hljs-number">0</span>]+=i.x<br>    new_point_list[i.point][<span class="hljs-number">1</span>]+=i.y<br>    nums_point[i.point]+=<span class="hljs-number">1</span><br>  <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(k):<br>    pr=new_point_list[i]<br>    pr[<span class="hljs-number">0</span>]=<span class="hljs-built_in">int</span>(pr[<span class="hljs-number">0</span>]/nums_point[i])<br>    pr[<span class="hljs-number">1</span>]=<span class="hljs-built_in">int</span>(pr[<span class="hljs-number">1</span>]/nums_point[i])<br>  <span class="hljs-keyword">if</span> new_point_list!=pointList:<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(k):<br>      pointList[i][<span class="hljs-number">0</span>]=new_point_list[i][<span class="hljs-number">0</span>]<br>      pointList[i][<span class="hljs-number">1</span>]=new_point_list[i][<span class="hljs-number">1</span>]<br>    <span class="hljs-built_in">print</span>(pointList)<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span><br>  <span class="hljs-keyword">else</span>:<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span><br></code></pre></td></tr></table></figure></p>
+与<code>datePoint.point</code>来储存数据点与它所属的中心。</p>
+<h3 id="计算数据点所属的中心">计算数据点所属的中心</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">calPoint</span>(<span class="hljs-params">dateList:<span class="hljs-built_in">list</span>,pointList:<span class="hljs-built_in">list</span></span>):<br>  <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> dateList:<br>    flag=<span class="hljs-number">10000000</span> <span class="hljs-comment">#一个足够大的数字</span><br>    <span class="hljs-keyword">for</span> ii <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-built_in">len</span>(pointList)):<br>      <span class="hljs-keyword">if</span>(flag&gt;((i.x-pointList[ii][<span class="hljs-number">0</span>])**<span class="hljs-number">2</span>+(i.y-pointList[ii][<span class="hljs-number">1</span>])**<span class="hljs-number">2</span>)):<br>        flag=(i.x-pointList[ii][<span class="hljs-number">0</span>])**<span class="hljs-number">2</span>+(i.y-pointList[ii][<span class="hljs-number">1</span>])**<span class="hljs-number">2</span><br>        i.point=ii<br></code></pre></td></tr></table></figure>
+<p>遍历每一个数据点，在第二个循环中检查每一个中心到该点的距离，选择最小的那个。这里使用了一个足够大的数字保证第一次计算的距离会小于这个假想的中心点。</p>
+<h3 id="移动中心点">移动中心点</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">change_point</span>(<span class="hljs-params">dateList:<span class="hljs-built_in">list</span>,pointList:<span class="hljs-built_in">list</span></span>):<br>  new_point_list=[[<span class="hljs-number">0</span>,<span class="hljs-number">0</span>] <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(k)]<br>  nums_point=[<span class="hljs-number">0</span> <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(k)]<br>  <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> dateList:<br>    new_point_list[i.point][<span class="hljs-number">0</span>]+=i.x<br>    new_point_list[i.point][<span class="hljs-number">1</span>]+=i.y<br>    nums_point[i.point]+=<span class="hljs-number">1</span><br>  <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(k):<br>    pr=new_point_list[i]<br>    pr[<span class="hljs-number">0</span>]=<span class="hljs-built_in">int</span>(pr[<span class="hljs-number">0</span>]/nums_point[i])<br>    pr[<span class="hljs-number">1</span>]=<span class="hljs-built_in">int</span>(pr[<span class="hljs-number">1</span>]/nums_point[i])<br>  <span class="hljs-keyword">if</span> new_point_list!=pointList:<br>    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(k):<br>      pointList[i][<span class="hljs-number">0</span>]=new_point_list[i][<span class="hljs-number">0</span>]<br>      pointList[i][<span class="hljs-number">1</span>]=new_point_list[i][<span class="hljs-number">1</span>]<br>    <span class="hljs-built_in">print</span>(pointList)<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span><br>  <span class="hljs-keyword">else</span>:<br>    <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span><br></code></pre></td></tr></table></figure>
 <p>先定义了一个数组 <code>new_point_list</code>
 来储存新计算的中心点，然后 <code>nums_point</code>
 储存属于每一个中心点的数据个数以方便最后计算平均值。在我这个精度下，点取整数即可。最后一个
 <code>if</code> 用于判断中心发生了改变，就返回 <code>True</code> 反之为
-<code>False</code>. ### 一些收尾工作 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">while</span> change_point(dateList,pointlist):<br>  calPoint(dateList,pointlist)<br><span class="hljs-built_in">print</span>(pointlist)<br></code></pre></td></tr></table></figure> 不停的迭代 2 和 3
-步，直到中心不再移动。最后输出结果即可。</p>
+<code>False</code>.</p>
+<h3 id="一些收尾工作">一些收尾工作</h3>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">while</span> change_point(dateList,pointlist):<br>  calPoint(dateList,pointlist)<br><span class="hljs-built_in">print</span>(pointlist)<br></code></pre></td></tr></table></figure>
+<p>不停的迭代 2 和 3 步，直到中心不再移动。最后输出结果即可。</p>
 <h2 id="参考">参考</h2>
 <p>[1].https://aishack.in/tutorials/kmeans-clustering/</p>
 

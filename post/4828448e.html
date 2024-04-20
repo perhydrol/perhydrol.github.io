@@ -24,7 +24,7 @@
 <meta property="og:description" content="就在前几天，我朋友托管在我这的 TeamSpeak 服务器突然无法访问了。简单分析后决定更新 TeamSpeak，但在打包文件到本地整理的时候卡巴斯基突然报毒 12345team.tar\team\.configrc\a\a;检测到恶意对象检测到;team.tar\team\.configrc\a\a文件;活动用户Trojan.Shell.Agent.br;数据库;木马程序;高;确切检测到;2">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-11-03T03:18:00.000Z">
-<meta property="article:modified_time" content="2022-11-14T03:09:35.000Z">
+<meta property="article:modified_time" content="2024-04-20T01:11:56.825Z">
 <meta property="article:author" content="Hydrogen">
 <meta property="article:tag" content="折腾">
 <meta name="twitter:card" content="summary_large_image">
@@ -362,7 +362,8 @@ SSH 常见的加固技巧。 <span id="more"></span></p>
 <h3 id="禁用密码登录">禁用密码登录</h3>
 <p>如果成功使用密钥登录了，下面可以禁用密码登录以提高安全性。编辑上文创建的
 /etc/ssh/sshd_config.d/my.conf 文件，添加一行 <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs nginx"><span class="hljs-attribute">PasswordAuthentication</span> <span class="hljs-literal">no</span><br></code></pre></td></tr></table></figure></p>
-<p>即可禁用密码登录。 ## Fail2Ban</p>
+<p>即可禁用密码登录。</p>
+<h2 id="fail2ban">Fail2Ban</h2>
 <blockquote>
 <p>Fail2Ban是一个入侵检测系统框架，它可以保护电脑服务器免受蛮力攻击。以Python程序设计语言编写，并能够在类Unix系统上运行，这些系统具有本地安装的数据包控制系统或防火墙的接口，例如Iptables或TCP
 Wrapper。 ——维基百科</p>

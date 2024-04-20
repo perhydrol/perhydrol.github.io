@@ -23,14 +23,13 @@
 <meta property="og:site_name" content="Hydrogen&#39;s Blog">
 <meta property="og:description" content="序 众所周知，21世纪的青少年到了一定的年纪总会积累下一大批的学习资料。如果你像我一样是属仓鼠的，你将不可避免的产生隐秘的储存学习资料的需求，除非你是社交恐怖分子。啥也不知道的新司机以为多重嵌套文件夹就万事大吉，最多启用隐藏文件夹。大部分老司机可能会选择使用加密的压缩包来储存资料，毕竟压缩包简单好使，如果没有经常复习的需求已经够用了。但如果你想更近一步，使用更加高级且舒适的方法，这文章值得你看下">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://s3.bmp.ovh/imgs/2022/04/29/5a40d0823c7ec9ab.png">
 <meta property="og:image" content="https://s3.bmp.ovh/imgs/2022/04/29/6ac80240d89cc854.png">
 <meta property="article:published_time" content="2022-04-28T13:21:42.000Z">
-<meta property="article:modified_time" content="2022-11-14T03:09:35.000Z">
+<meta property="article:modified_time" content="2024-04-20T01:10:20.568Z">
 <meta property="article:author" content="Hydrogen">
 <meta property="article:tag" content="折腾">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://s3.bmp.ovh/imgs/2022/04/29/5a40d0823c7ec9ab.png">
+<meta name="twitter:image" content="https://s3.bmp.ovh/imgs/2022/04/29/6ac80240d89cc854.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
@@ -319,64 +318,92 @@
                 
                 <h2 id="序">序</h2>
 <p>众所周知，21世纪的青少年到了一定的年纪总会积累下一大批的学习资料。如果你像我一样是属仓鼠的，你将不可避免的产生隐秘的储存学习资料的需求，除非你是社交恐怖分子。啥也不知道的新司机以为多重嵌套文件夹就万事大吉，最多启用隐藏文件夹。大部分老司机可能会选择使用加密的压缩包来储存资料，毕竟压缩包简单好使，如果没有经常复习的需求已经够用了。但如果你想更近一步，使用更加高级且舒适的方法，这文章值得你看下去。虽然准备稍复杂，但日后体验绝对很棒。<br />
-<span id="more"></span> <strong>以下操作均在 Windows10/11 下完成</strong><br />
-## 创建虚拟硬盘
-虚拟硬盘是一种特殊的文件，它像其他文件比如PPT和图片一样可以自由复制或移动。但使用时只需
+<span id="more"></span></p>
+<p><strong>以下操作均在 Windows10/11 下完成</strong></p>
+<h2 id="创建虚拟硬盘">创建虚拟硬盘</h2>
+<p>虚拟硬盘是一种特殊的文件，它像其他文件比如PPT和图片一样可以自由复制或移动。但使用时只需
 “挂载”
 ，计算机便会出现一个新的硬盘，对于应用程序来说它就是普通的硬盘，也就是说你该咋用就咋用，不碍事。好啦，下面我们来创建一个虚拟硬盘吧。<br />
-首先你要决定创建<strong>动态虚拟硬盘</strong>还是<strong>固定虚拟硬盘</strong>，下面简称为动态硬盘和固定硬盘。动态硬盘一开始占用空间很小，但随着填充内容会逐渐变大直到设定大小。固定硬盘的大小一开始就设定完成，不够用了可以手动扩充，但对于加密的硬盘来说扩充更加困难，优点是比动态硬盘性能好一些。<br />
-### 命令行创建（可能需要专业版） <strong>确保下文的所有 PowerShell
-命令以管理员身份运行</strong><br />
+首先你要决定创建<strong>动态虚拟硬盘</strong>还是<strong>固定虚拟硬盘</strong>，下面简称为动态硬盘和固定硬盘。动态硬盘一开始占用空间很小，但随着填充内容会逐渐变大直到设定大小。固定硬盘的大小一开始就设定完成，不够用了可以手动扩充，但对于加密的硬盘来说扩充更加困难，优点是比动态硬盘性能好一些。</p>
+<h3 id="命令行创建可能需要专业版">命令行创建（可能需要专业版）</h3>
+<p><strong>确保下文的所有 PowerShell 命令以管理员身份运行</strong><br />
 创建动态硬盘（因为大小是动态增大的，设定值容量高一些比较好）：
 <figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-built_in">New</span>-VHD -<span class="hljs-type">Path</span> c:\base.vhdx -SizeBytes <span class="hljs-number">100</span>GB<br></code></pre></td></tr></table></figure> 不出意外会C 盘根目录下产生一个 5MB 大小的base.vhdx文件
-创建固定硬盘： <figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mathematica"><span class="hljs-variable">New</span><span class="hljs-operator">-</span><span class="hljs-variable">VHD</span> <span class="hljs-operator">-</span><span class="hljs-built_in">Path</span> <span class="hljs-built_in">C</span><span class="hljs-operator">:</span>\<span class="hljs-variable">fixed</span><span class="hljs-operator">.</span><span class="hljs-variable">vhd</span> <span class="hljs-operator">-</span><span class="hljs-variable">Fixed</span> <span class="hljs-operator">-</span><span class="hljs-variable">SizeBytes</span> <span class="hljs-number">10</span><span class="hljs-variable">GB</span><br></code></pre></td></tr></table></figure> C盘根目录下产生一个 10GB 的fixed.vhd文件
-### GUI创建 * Win+x并点击磁盘管理 * 单击 “操作（A）” 并选择 “创建VHD”
-<img src="https://s3.bmp.ovh/imgs/2022/04/29/5a40d0823c7ec9ab.png" srcset="/img/loading.gif" lazyload /> *
-位置随你喜欢，虚拟硬盘大小选择 GB 并且越大越好 * 硬盘类型选择 “动态扩展”
-，VHD 还是 VHDX 随你喜欢 <img
-src="https://s3.bmp.ovh/imgs/2022/04/29/3c93432f669eba68.png" srcset="/img/loading.gif" lazyload /> ##
-格式化虚拟硬盘 这里统一使用GUI格式化<br />
+创建固定硬盘： <figure class="highlight mathematica"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs mathematica"><span class="hljs-variable">New</span><span class="hljs-operator">-</span><span class="hljs-variable">VHD</span> <span class="hljs-operator">-</span><span class="hljs-built_in">Path</span> <span class="hljs-built_in">C</span><span class="hljs-operator">:</span>\<span class="hljs-variable">fixed</span><span class="hljs-operator">.</span><span class="hljs-variable">vhd</span> <span class="hljs-operator">-</span><span class="hljs-variable">Fixed</span> <span class="hljs-operator">-</span><span class="hljs-variable">SizeBytes</span> <span class="hljs-number">10</span><span class="hljs-variable">GB</span><br></code></pre></td></tr></table></figure> C盘根目录下产生一个 10GB
+的fixed.vhd文件</p>
+<h3 id="gui创建">GUI创建</h3>
+<ul>
+<li>Win+x并点击磁盘管理</li>
+<li>单击 “操作（A）” 并选择 “创建VHD” <img
+src="https://s3.bmp.ovh/imgs/2022/04/29/5a40d0823c7ec9ab.png" srcset="/img/loading.gif" lazyload /></li>
+<li>位置随你喜欢，虚拟硬盘大小选择 GB 并且越大越好</li>
+<li>硬盘类型选择 “动态扩展” ，VHD 还是 VHDX 随你喜欢 <img
+src="https://s3.bmp.ovh/imgs/2022/04/29/3c93432f669eba68.png" srcset="/img/loading.gif" lazyload /></li>
+</ul>
+<h2 id="格式化虚拟硬盘">格式化虚拟硬盘</h2>
+<p>这里统一使用GUI格式化<br />
 * 右键新出现的硬盘，注意不要点到分区那里了 <img
 src="https://s3.bmp.ovh/imgs/2022/04/29/fed1927d32b8ef12.png" srcset="/img/loading.gif" lazyload /> *
 初始化硬盘 * 选择 MBR 和 GPT
 其实差不多，但如果你的系统不是专业版，我推荐 MBR * 确定 *
 右键分区，新建简单卷，一直下一步，完成即可<br />
 <img src="https://s3.bmp.ovh/imgs/2022/04/29/6ac80240d89cc854.png" srcset="/img/loading.gif" lazyload />
-好了，现在你应该可以看见一块新的空硬盘了<br />
-## 加密 这里又有两个选则。如果你使用的是专业版系统，并且以后一定只在
-Windows 环境下学习我推荐你选择 BitLocker 加密。这只适用于 Windows
+好了，现在你应该可以看见一块新的空硬盘了</p>
+<h2 id="加密">加密</h2>
+<p>这里又有两个选则。如果你使用的是专业版系统，并且以后一定只在 Windows
+环境下学习我推荐你选择 BitLocker 加密。这只适用于 Windows
 系统但体验最好。如果你不是专业版或者以后也许会换 Mac 或者 Linux
-环境，我要向你推荐大名鼎鼎的 VeraCrypt 加密软件。<br />
-### Bitlocker加密 * 在资源管理器之中右键新分区 * 选择 “启用Bitlocker” *
-设置密码 * 选一个你喜欢的保存选项 * 一直下一页，完成即可<br />
-Bitlocker 加密完成，下面的 VeraCrypt可以跳过。<br />
-### VeraCrypt加密<br />
-* (下载
-VeraCrypt)https://launchpad.net/veracrypt/trunk/1.25.9/+download/VeraCrypt%20Portable%201.25.9.exe
-* 运行 VeraCrypt.exe <img
-src="https://s3.bmp.ovh/imgs/2022/04/29/16fbb54ae7ce942d.png" srcset="/img/loading.gif" lazyload /> *
-如果你是英语界面，选择 “Setting”-&gt;“language”找到中文即可 * 单击
-“加密卷”-&gt;“创建加密卷” * “加密非系统分区/设备” * 标准加密卷即可 <img
-src="https://s3.bmp.ovh/imgs/2022/04/29/cc717be09776fa92.png" srcset="/img/loading.gif" lazyload /> *
-选择有 “新加卷” 且大小符合你设定值的硬盘 * 下一步，直到 “加密选项” *
-哈希算法一栏我推荐 “SHA-256”，毕竟越快越好 <img
-src="https://s3.bmp.ovh/imgs/2022/04/29/2001ca89a75f33ef.png" srcset="/img/loading.gif" lazyload /> *
-下一步~ * 填写密码 * 大文件选择推荐 “是” * 进入 “加密卷格式化”
-步骤后在小窗口内不停移动鼠标直到进度条变绿且跑满 <img
-src="https://s3.bmp.ovh/imgs/2022/04/29/f81bac2c0df3dc40.png" srcset="/img/loading.gif" lazyload /> *
-格式化~等待一会，电脑可能会卡 * 要仔细阅读警告哦!!! *
-关掉窗口，已经加密完了<br />
-#### VeraCrypt挂载<br />
-日后使用时，先按下文的步骤挂载虚拟硬盘，然后打开 VeraCrypt.exe 在
+环境，我要向你推荐大名鼎鼎的 VeraCrypt 加密软件。</p>
+<h3 id="bitlocker加密">Bitlocker加密</h3>
+<ul>
+<li>在资源管理器之中右键新分区</li>
+<li>选择 “启用Bitlocker”</li>
+<li>设置密码</li>
+<li>选一个你喜欢的保存选项</li>
+<li>一直下一页，完成即可<br />
+Bitlocker 加密完成，下面的 VeraCrypt可以跳过。</li>
+</ul>
+<h3 id="veracrypt加密">VeraCrypt加密</h3>
+<ul>
+<li>(下载
+VeraCrypt)https://launchpad.net/veracrypt/trunk/1.25.9/+download/VeraCrypt%20Portable%201.25.9.exe</li>
+<li>运行 VeraCrypt.exe <img
+src="https://s3.bmp.ovh/imgs/2022/04/29/16fbb54ae7ce942d.png" srcset="/img/loading.gif" lazyload /></li>
+<li>如果你是英语界面，选择 “Setting”-&gt;“language”找到中文即可</li>
+<li>单击 “加密卷”-&gt;“创建加密卷”</li>
+<li>“加密非系统分区/设备”</li>
+<li>标准加密卷即可 <img
+src="https://s3.bmp.ovh/imgs/2022/04/29/cc717be09776fa92.png" srcset="/img/loading.gif" lazyload /></li>
+<li>选择有 “新加卷” 且大小符合你设定值的硬盘</li>
+<li>下一步，直到 “加密选项”</li>
+<li>哈希算法一栏我推荐 “SHA-256”，毕竟越快越好 <img
+src="https://s3.bmp.ovh/imgs/2022/04/29/2001ca89a75f33ef.png" srcset="/img/loading.gif" lazyload /></li>
+<li>下一步~</li>
+<li>填写密码</li>
+<li>大文件选择推荐 “是”</li>
+<li>进入 “加密卷格式化” 步骤后在小窗口内不停移动鼠标直到进度条变绿且跑满
+<img
+src="https://s3.bmp.ovh/imgs/2022/04/29/f81bac2c0df3dc40.png" srcset="/img/loading.gif" lazyload /></li>
+<li>格式化~等待一会，电脑可能会卡</li>
+<li>要仔细阅读警告哦!!!</li>
+<li>关掉窗口，已经加密完了</li>
+</ul>
+<h4 id="veracrypt挂载">VeraCrypt挂载</h4>
+<p>日后使用时，先按下文的步骤挂载虚拟硬盘，然后打开 VeraCrypt.exe 在
 ABCDEF……
 里随便选一个，点击自动挂载设备，解密~完成！这里我解释一下为什么选择 MBR
 硬盘：在我的电脑上，GPT
 类型的硬盘自动挂载会卡很久，可能是因为多了一个引导分区导致的。反正这硬盘也不装系统，MBR
-就很好用。 ## 挂载与弹出硬盘 ### 挂载 win+x 进入磁盘管理，点击
-“操作（A）”，选择 “附加VHD“ 找到虚拟硬盘文件即可。 ### 弹出硬盘 使用了
-VeraCrypt 加密的同学，请先运行 VeraCrypt 并点击 “全部卸载“
-。之后再进入磁盘管理，右键虚拟磁盘，点击 ”分离VHD“，确定即可。 ## 结语
-经过以上操作，你已经掌握了高级的文件隐藏技巧。上述资料存储的进化过程是我的亲身经历，技术力不断进步，工具越来越复杂，但想在生活中更加舒适的愿望没有改变。可以说是不忘初心了（笑。相信掌握新方法的你日后学习一定能更上一层楼，去异世界之前再也不用拜托后辈清空硬盘了！</p>
+就很好用。</p>
+<h2 id="挂载与弹出硬盘">挂载与弹出硬盘</h2>
+<h3 id="挂载">挂载</h3>
+<p>win+x 进入磁盘管理，点击 “操作（A）”，选择 “附加VHD“
+找到虚拟硬盘文件即可。</p>
+<h3 id="弹出硬盘">弹出硬盘</h3>
+<p>使用了 VeraCrypt 加密的同学，请先运行 VeraCrypt 并点击 “全部卸载“
+。之后再进入磁盘管理，右键虚拟磁盘，点击 ”分离VHD“，确定即可。</p>
+<h2 id="结语">结语</h2>
+<p>经过以上操作，你已经掌握了高级的文件隐藏技巧。上述资料存储的进化过程是我的亲身经历，技术力不断进步，工具越来越复杂，但想在生活中更加舒适的愿望没有改变。可以说是不忘初心了（笑。相信掌握新方法的你日后学习一定能更上一层楼，去异世界之前再也不用拜托后辈清空硬盘了！</p>
 
                 
               </div>
