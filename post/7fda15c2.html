@@ -23,11 +23,13 @@
 <meta property="og:site_name" content="Hydrogen&#39;s Blog">
 <meta property="og:description" content="简单线性回归 什么是简单线性回归？根据《统计学习导论》一书，是指一种非常简单地根据单一预测变量 X 预测定量响应变量 Y 的方法。也就是 \[Y\approx\beta _{0}+\beta_{1}X\] 注意，本文不会专注于概念的公式和计算，我只想搞定以下目标：  如何进行简单线性回归 如何评估回归的拟合质量    - 参数的拟合质量    - 模型整体的拟合质量 预测变量和响应">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s3.bmp.ovh/imgs/2024/04/20/624b0b057b202881.png">
 <meta property="article:published_time" content="2024-04-19T12:55:03.000Z">
-<meta property="article:modified_time" content="2024-04-19T14:51:41.582Z">
+<meta property="article:modified_time" content="2024-04-20T01:30:24.269Z">
 <meta property="article:author" content="Hydrogen">
 <meta property="article:tag" content="统计学习">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://s3.bmp.ovh/imgs/2024/04/20/624b0b057b202881.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
@@ -326,6 +328,11 @@ class="math display">\[Y\approx\beta _{0}+\beta_{1}X\]</span></p>
 <li>预测变量和响应变量之间是否有关系？如何评估他们之间的关系</li>
 <li>哪些预测变量显著影响着响应变量？</li>
 </ol>
+<figure>
+<img src="https://s3.bmp.ovh/imgs/2024/04/20/624b0b057b202881.png" srcset="/img/loading.gif" lazyload
+alt="整体思维导图" />
+<figcaption aria-hidden="true">整体思维导图</figcaption>
+</figure>
 <h2 id="如何进行简单线性回归">如何进行简单线性回归</h2>
 <p>我们都学过最小二乘法拟合一条直线，简单来说就是找到一条直线，使所有点到直线的距离最小。</p>
 <p>让我们专业一点： <strong>残差</strong>：第 i 个观测到的响应值到第 i
