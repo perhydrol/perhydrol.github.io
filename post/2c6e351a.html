@@ -115,7 +115,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
-<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.2.0"></head>
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head>
 
 
 <body>
@@ -343,7 +343,7 @@ src="https://s3.bmp.ovh/imgs/2022/05/02/7ea6a60254de97c0.png" srcset="/img/loadi
 为中心点个数；<code>date</code>为随机生成的数据；<code>dateList</code>
 保存数据与其所属中心点；<code>pointlist</code>
 是中心，使用随机数初始化。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">datePoint</span>:<br>  x=y=<span class="hljs-number">0</span><br>  point=<span class="hljs-number">0</span><br>  <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self,X,Y,Point=<span class="hljs-number">0</span></span>) -&gt; <span class="hljs-literal">None</span>:<br>      self.x=X<br>      self.y=Y<br>      self.point=Point<br></code></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">class</span> <span class="hljs-title class_">datePoint</span>:<br>  x=y=<span class="hljs-number">0</span><br>  point=<span class="hljs-number">0</span><br>  <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self,X,Y,Point=<span class="hljs-number">0</span></span>) -&gt; <span class="hljs-literal">None</span>:<br>      <span class="hljs-variable language_">self</span>.x=X<br>      <span class="hljs-variable language_">self</span>.y=Y<br>      <span class="hljs-variable language_">self</span>.point=Point<br></code></pre></td></tr></table></figure>
 <p>我定义了一个类 <code>dateList</code>
 与<code>datePoint.point</code>来储存数据点与它所属的中心。</p>
 <h3 id="计算数据点所属的中心">计算数据点所属的中心</h3>

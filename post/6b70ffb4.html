@@ -16,27 +16,24 @@
   <meta name="author" content="Hydrogen">
   <meta name="keywords" content="博客,blog,计算机,管理学,运筹学">
   
-    <meta name="description" content="Adguard Home 是 Windows 下最好的 DNS 管理器！会看见这篇文章，想必你对 Adguard Home 的功能已经有所了解，但我要泼一盆冷水， Adguard Home 的广告过滤功能比较鸡肋，效果不如浏览器的 uBlock Origin 插件好。但如果将其当作一个 DNS 管理器，它将十分优秀。本文主要介绍如何将 Adguard Home 部署在 Windows 下并">
+    <meta name="description" content="分类 本文将专注于以下内容： 1. 为什么不使用线性回归模型 2. 什么是逻辑斯谛回归 - 单预测变量 - 多预测变量 3. 贝叶斯定理估计 - LDA （线性判别分析） 4. 灵敏度和特异度 为什么不使用线性回归模型 考虑《统计学习导论》中的例子：预测一个人是中风、服药过量、癫痫发作。如果使用线性回归模型，一个自然的假设是 \[Y&#x3D; \begin{cases}1, &amp; \te">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Adguard Home 设置">
-<meta property="og:url" content="https://blog.hydrogenroom.icu/post/ce8e32b9.html">
+<meta property="og:title" content="分类问题：逻辑斯谛回归与线性判别分析">
+<meta property="og:url" content="https://blog.hydrogenroom.icu/post/6b70ffb4.html">
 <meta property="og:site_name" content="Hydrogen&#39;s Blog">
-<meta property="og:description" content="Adguard Home 是 Windows 下最好的 DNS 管理器！会看见这篇文章，想必你对 Adguard Home 的功能已经有所了解，但我要泼一盆冷水， Adguard Home 的广告过滤功能比较鸡肋，效果不如浏览器的 uBlock Origin 插件好。但如果将其当作一个 DNS 管理器，它将十分优秀。本文主要介绍如何将 Adguard Home 部署在 Windows 下并">
+<meta property="og:description" content="分类 本文将专注于以下内容： 1. 为什么不使用线性回归模型 2. 什么是逻辑斯谛回归 - 单预测变量 - 多预测变量 3. 贝叶斯定理估计 - LDA （线性判别分析） 4. 灵敏度和特异度 为什么不使用线性回归模型 考虑《统计学习导论》中的例子：预测一个人是中风、服药过量、癫痫发作。如果使用线性回归模型，一个自然的假设是 \[Y&#x3D; \begin{cases}1, &amp; \te">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://s3.bmp.ovh/imgs/2022/09/29/80bee65439cc057c.png">
-<meta property="og:image" content="https://s3.bmp.ovh/imgs/2022/09/29/3d2771b4a2d150b1.png">
-<meta property="article:published_time" content="2022-09-28T14:05:30.000Z">
-<meta property="article:modified_time" content="2022-11-14T03:09:35.000Z">
+<meta property="article:published_time" content="2024-04-25T07:25:15.000Z">
+<meta property="article:modified_time" content="2024-04-25T08:22:35.182Z">
 <meta property="article:author" content="Hydrogen">
-<meta property="article:tag" content="折腾">
+<meta property="article:tag" content="统计学习">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://s3.bmp.ovh/imgs/2022/09/29/80bee65439cc057c.png">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>Adguard Home 设置 - Hydrogen&#39;s Blog</title>
+  <title>分类问题：逻辑斯谛回归与线性判别分析 - Hydrogen&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -233,7 +230,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Adguard Home 设置"></span>
+            <span id="subtitle" data-typed-text="分类问题：逻辑斯谛回归与线性判别分析"></span>
           
         </div>
 
@@ -244,8 +241,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-09-28 22:05" pubdate>
-          2022年9月28日 晚上
+        <time datetime="2024-04-25 15:25" pubdate>
+          2024年4月25日 下午
         </time>
       </span>
     
@@ -256,7 +253,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          651 字
+          418 字
         
       </span>
     
@@ -267,7 +264,7 @@
         
         
         
-          6 分钟
+          4 分钟
         
       </span>
     
@@ -312,71 +309,36 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">Adguard Home 设置</h1>
+            <h1 id="seo-header">分类问题：逻辑斯谛回归与线性判别分析</h1>
             
             
               <div class="markdown-body">
                 
-                <p>Adguard Home 是 Windows 下最好的 DNS 管理器！会看见这篇文章，想必你对
-Adguard Home 的功能已经有所了解，但我要泼一盆冷水， Adguard Home
-的广告过滤功能比较鸡肋，效果不如浏览器的 uBlock Origin
-插件好。但如果将其当作一个 DNS 管理器，它将十分优秀。本文主要介绍如何将
-Adguard Home 部署在 Windows 下并为本机提供 DNS 服务。</p>
-<span id="more"></span>
-<p>在官方<a
-target="_blank" rel="noopener" href="https://github.com/AdguardTeam/AdGuardHome/releases">Github
-仓库</a>中选择适合 Windows 的版本，或者点击这下载<a
-target="_blank" rel="noopener" href="https://github.com/AdguardTeam/AdGuardHome/releases/download/v0.107.13/AdGuardHome_windows_amd64.zip">AdGuardHome_windows_amd64.zip(v0.107)</a>。解压至一个好找的地方(别放在桌面，设置完后一不小心删了会无法联网)</p>
-<p>文件如下：</p>
-<figure class="highlight brainfuck"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs brainfuck"><span class="hljs-comment">Mode                 LastWriteTime         Length Name</span><br><span class="hljs-literal">----</span>                 <span class="hljs-literal">-------------</span>         <span class="hljs-literal">------</span> <span class="hljs-literal">----</span><br><span class="hljs-literal">-----</span>           <span class="hljs-comment">2022/9/14    22:46       33306112 AdGuardHome</span><span class="hljs-string">.</span><span class="hljs-comment">exe</span><br><span class="hljs-literal">-----</span>           <span class="hljs-comment">2022/9/14    22:46            587 AdGuardHome</span><span class="hljs-string">.</span><span class="hljs-comment">exe</span><span class="hljs-string">.</span><span class="hljs-comment">sig</span><br><span class="hljs-literal">-----</span>           <span class="hljs-comment">2022/9/14    22:46          51429 CHANGELOG</span><span class="hljs-string">.</span><span class="hljs-comment">md</span><br><span class="hljs-literal">-----</span>           <span class="hljs-comment">2022/9/14    22:46          35149 LICENSE</span><span class="hljs-string">.</span><span class="hljs-comment">txt</span><br><span class="hljs-literal">-----</span>           <span class="hljs-comment">2022/9/14    22:46          23266 README</span><span class="hljs-string">.</span><span class="hljs-comment">md</span><br></code></pre></td></tr></table></figure>
-<p>首次运行需要以管理员身份运行
-AdGuardHome.exe，等命令行跑完。直到出现类似下面的命令</p>
-<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs pgsql">[<span class="hljs-keyword">info</span>] Service control action: install<br>[<span class="hljs-keyword">info</span>] Service has been started<br>[<span class="hljs-keyword">info</span>] Almost ready!<br>AdGuard Home <span class="hljs-keyword">is</span> successfully installed <span class="hljs-keyword">and</span> will automatically <span class="hljs-keyword">start</span> <span class="hljs-keyword">on</span> boot ．<br>There are a few more things that must be configured <span class="hljs-keyword">before</span> you can use it.<br>lick <span class="hljs-keyword">on</span> the link below <span class="hljs-keyword">and</span> follow the Installation Wizard steps finish setup.<br>[<span class="hljs-keyword">info</span>] AdGuard Home <span class="hljs-keyword">is</span> available <span class="hljs-keyword">on</span> the f0110 丽 ng addresses ：<br>[<span class="hljs-keyword">info</span>] GO <span class="hljs-keyword">to</span> http://<span class="hljs-number">192.168</span><span class="hljs-number">.11</span>:<span class="hljs-number">3000</span><br>[<span class="hljs-keyword">info</span>] Go <span class="hljs-keyword">to</span> http://[::<span class="hljs-number">1</span>]:<span class="hljs-number">3000</span><br>[<span class="hljs-keyword">info</span>] Go <span class="hljs-keyword">to</span> http://<span class="hljs-number">127.0</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>:<span class="hljs-number">3000</span><br>[<span class="hljs-keyword">info</span>] Action install has been done successfully <span class="hljs-keyword">on</span> windows-service<br></code></pre></td></tr></table></figure>
-<h2 id="adguard-home-设置">Adguard Home 设置</h2>
-<p>在浏览器中输入 http://127.0.0.1:3000 即可进入 Adguard Home
-的管理页面，首先设置账号和密码，一路下一步即可，然后进入“DNS 设置”。</p>
-<p><img
-src="https://s3.bmp.ovh/imgs/2022/09/29/eea15e9eae345f58.png" srcset="/img/loading.gif" lazyload /></p>
-<p>在上游DNS服务器中填入以下内容，即可设置阿里DNS与腾讯DNS为上游 DoH
-解析，同时 DoH 的 DNS 可以有效防止运营商的 DNS 污染。</p>
-<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs dts"><span class="hljs-symbol">https:</span><span class="hljs-comment">//dns.alidns.com/dns-query</span><br><span class="hljs-symbol">https:</span><span class="hljs-comment">//doh.pub/dns-query</span><br></code></pre></td></tr></table></figure>
-<p>在 Bootstrap DNS 中填入，使用阿里DNS和GoogleDNS作为 DoH 服务器解析
-DNS。</p>
-<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs apache"><span class="hljs-attribute">223</span>.<span class="hljs-number">5</span>.<span class="hljs-number">5</span>.<span class="hljs-number">5</span><br><span class="hljs-attribute">8</span>.<span class="hljs-number">8</span>.<span class="hljs-number">8</span>.<span class="hljs-number">8</span><br><span class="hljs-attribute">2001</span>:<span class="hljs-number">4860</span>:<span class="hljs-number">4860</span>::<span class="hljs-number">8888</span><br><span class="hljs-attribute">2400</span>:<span class="hljs-number">3200</span>::<span class="hljs-number">1</span><br></code></pre></td></tr></table></figure>
-<p><img
-src="https://s3.bmp.ovh/imgs/2022/09/29/5f98fdce140013c7.png" srcset="/img/loading.gif" lazyload /></p>
-<p>同时强烈推荐你丢弃 IPv6 解析，目前许多老小区的网络设施无法使用
-IPv6，防止 Windows 使用 IPv6 去访问目标服务器。</p>
-<p><img
-src="https://s3.bmp.ovh/imgs/2022/09/29/1328ec16d4029d8b.png" srcset="/img/loading.gif" lazyload /></p>
-<p>其余默认即可。</p>
-<p>DNS 过滤名单如下添加即可，太多不但拖慢速度而且效果不明显。</p>
-<p><img
-src="https://s3.bmp.ovh/imgs/2022/09/29/a56ff7dec97a56e1.png" srcset="/img/loading.gif" lazyload /></p>
-<h2 id="windows-设置">Windows 设置</h2>
-<p>Adguard Home 的自带的设置指导已经十分详细。对于 Windows
-步骤如下。</p>
-<ol type="1">
-<li>通过开始菜单或 Windows 搜索功能打开控制面板。</li>
-<li>点击进入「网络和 Internet」后，再次点击进入「网络和共享中心」</li>
-<li>在窗口的左侧点击「更改适配器设置」。</li>
-<li>选择您正在连接的网络设备，右击它并选择「属性”」。</li>
-<li>在列表中找到「Internet 协议版本 4
-(TCP/IPv4)」，选择并再次点击「属性」。</li>
-<li>选择「使用下面的 DNS 服务器地址」，并输入您的 AdGuard Home
-服务器地址（127.0.0.1）。</li>
-</ol>
-<p><img
-src="https://s3.bmp.ovh/imgs/2022/09/29/a4391d4dc0860f91.png" srcset="/img/loading.gif" lazyload /></p>
-<h3 id="开机自启">开机自启</h3>
-<p>在计划任务中新建任务，按下图填入（用户名要填你自己电脑登陆的用户名！！）
-<img src="https://s3.bmp.ovh/imgs/2022/09/29/80bee65439cc057c.png" srcset="/img/loading.gif" lazyload />
-<img src="https://s3.bmp.ovh/imgs/2022/09/29/3d2771b4a2d150b1.png" srcset="/img/loading.gif" lazyload />
-程序就选择 Adguard Home.exe <img
-src="https://s3.bmp.ovh/imgs/2022/09/29/e70fb333adcf0d0e.png" srcset="/img/loading.gif" lazyload /> <img
-src="https://s3.bmp.ovh/imgs/2022/09/29/42c16ecf60c06269.png" srcset="/img/loading.gif" lazyload /> <img
-src="https://s3.bmp.ovh/imgs/2022/09/29/08dddfddb7e47d96.png" srcset="/img/loading.gif" lazyload /></p>
-<p>完成</p>
+                <h1 id="分类">分类</h1>
+<p>本文将专注于以下内容： 1. 为什么不使用线性回归模型 2.
+什么是逻辑斯谛回归 - 单预测变量 - 多预测变量 3. 贝叶斯定理估计 - LDA
+（线性判别分析） 4. 灵敏度和特异度</p>
+<h2 id="为什么不使用线性回归模型">为什么不使用线性回归模型</h2>
+<p>考虑《统计学习导论》中的例子：预测一个人是中风、服药过量、癫痫发作。如果使用线性回归模型，一个自然的假设是</p>
+<p><span class="math display">\[Y= \begin{cases}1, &amp; \text { 中风 }
+\\ 2, &amp; \text { 服药过量 } \\ 3, &amp; \text { 癫痫发作
+}\end{cases}\]</span></p>
+<p>然而，这会产生两个问题： 1. 隐含信息：三种情况的差距是一样的 2.
+不同的编码顺序产生不同的模型</p>
+<p>当然，如果<strong>只有两个</strong>响应变量自然，或者响应变量之间确实有一个程度顺序（温度的高、中、低），使用这种编码也是可以的。</p>
+<p>当只有两个变量时，可以使用<strong>哑变量</strong>来进行<strong>响应变量</strong>的编码。接着进行线性回归拟合，产生一条直线，对于
+Y&gt;0.5 的分类为服药过量。然而，我们知道这条直线会有 [0,1]
+之外的值，这些值难以解释。</p>
+<p><span class="math display">\[Y= \begin{cases}0, &amp; \text { 中风 }
+\\ 1, &amp; \text { 服药过量 }\end{cases}\]</span></p>
+<h2 id="只有两个响应变量逻辑斯蒂">只有两个响应变量：逻辑斯蒂</h2>
+<p>有一类函数被成为 S 型曲线，而逻辑斯蒂模型就是这样的曲线。</p>
+<p><span class="math display">\[p(X)=\frac{e^{\beta
+_0+\beta_1X}}{1+e^{\beta _0+\beta_1X}}\]</span></p>
+<p>整理得出：</p>
+<p><span class="math display">\[\ln{\frac{p(X)}{1-p(x)} } =\beta
+_0+\beta_1X\]</span></p>
+<p>所有逻辑斯蒂回归可以视为一个关于 Ｘ 的线性模型</p>
 
                 
               </div>
@@ -389,7 +351,7 @@ src="https://s3.bmp.ovh/imgs/2022/09/29/08dddfddb7e47d96.png" srcset="/img/loadi
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/%E6%8A%98%E8%85%BE/" class="print-no-link">#折腾</a>
+        <a href="/tags/%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0/" class="print-no-link">#统计学习</a>
       
     </div>
   
@@ -401,8 +363,8 @@ src="https://s3.bmp.ovh/imgs/2022/09/29/08dddfddb7e47d96.png" srcset="/img/loadi
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Adguard Home 设置</div>
-      <div>https://blog.hydrogenroom.icu/post/ce8e32b9.html</div>
+      <div>分类问题：逻辑斯谛回归与线性判别分析</div>
+      <div>https://blog.hydrogenroom.icu/post/6b70ffb4.html</div>
     </div>
     <div class="license-meta">
       
@@ -414,7 +376,7 @@ src="https://s3.bmp.ovh/imgs/2022/09/29/08dddfddb7e47d96.png" srcset="/img/loadi
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年9月28日</div>
+          <div>2024年4月25日</div>
         </div>
       
       
@@ -458,9 +420,9 @@ src="https://s3.bmp.ovh/imgs/2022/09/29/08dddfddb7e47d96.png" srcset="/img/loadi
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/post/4828448e.html" title="Linux(Debian)-常见加固技巧（SSH）">
+                      <a href="/post/b6d2dc63.html" title="客观合理地期待星空（Starfield)——为什么我相信 &#34;It just works.&#34;">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Linux(Debian)-常见加固技巧（SSH）</span>
+                        <span class="hidden-mobile">客观合理地期待星空（Starfield)——为什么我相信 &#34;It just works.&#34;</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -468,8 +430,8 @@ src="https://s3.bmp.ovh/imgs/2022/09/29/08dddfddb7e47d96.png" srcset="/img/loadi
                   <article class="post-next col-6">
                     
                     
-                      <a href="/post/e678ff2a.html" title="实现分配固定大小内存池-C++">
-                        <span class="hidden-mobile">实现分配固定大小内存池-C++</span>
+                      <a href="/post/7fda15c2.html" title="简单线性回归：基础">
+                        <span class="hidden-mobile">简单线性回归：基础</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -526,6 +488,12 @@ src="https://s3.bmp.ovh/imgs/2022/09/29/08dddfddb7e47d96.png" srcset="/img/loadi
 
 
   
+
+
+  
+  
+
+
 
 
 
@@ -743,6 +711,49 @@ src="https://s3.bmp.ovh/imgs/2022/09/29/08dddfddb7e47d96.png" srcset="/img/loadi
 
 
   <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
 
   <script  src="/js/local-search.js" ></script>
 
