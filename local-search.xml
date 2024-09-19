@@ -23,25 +23,6 @@
   
   
   <entry>
-    <title>分类问题：逻辑斯谛回归与线性判别分析</title>
-    <link href="/post/6b70ffb4.html"/>
-    <url>/post/6b70ffb4.html</url>
-    
-    <content type="html"><![CDATA[<h1 id="分类">分类</h1><p>本文将专注于以下内容： 1. 为什么不使用线性回归模型 2.什么是逻辑斯谛回归 - 单预测变量 - 多预测变量 3. 贝叶斯定理估计 - LDA（线性判别分析） 4. 灵敏度和特异度</p><h2 id="为什么不使用线性回归模型">为什么不使用线性回归模型</h2><p>考虑《统计学习导论》中的例子：预测一个人是中风、服药过量、癫痫发作。如果使用线性回归模型，一个自然的假设是</p><p><span class="math display">\[Y= \begin{cases}1, &amp; \text { 中风 }\\ 2, &amp; \text { 服药过量 } \\ 3, &amp; \text { 癫痫发作}\end{cases}\]</span></p><p>然而，这会产生两个问题： 1. 隐含信息：三种情况的差距是一样的 2.不同的编码顺序产生不同的模型</p><p>当然，如果<strong>只有两个</strong>响应变量自然，或者响应变量之间确实有一个程度顺序（温度的高、中、低），使用这种编码也是可以的。</p><p>当只有两个变量时，可以使用<strong>哑变量</strong>来进行<strong>响应变量</strong>的编码。接着进行线性回归拟合，产生一条直线，对于Y&gt;0.5 的分类为服药过量。然而，我们知道这条直线会有 [0,1]之外的值，这些值难以解释。</p><p><span class="math display">\[Y= \begin{cases}0, &amp; \text { 中风 }\\ 1, &amp; \text { 服药过量 }\end{cases}\]</span></p><h2 id="只有两个响应变量逻辑斯蒂">只有两个响应变量：逻辑斯蒂</h2><p>有一类函数被成为 S 型曲线，而逻辑斯蒂模型就是这样的曲线。</p><p><span class="math display">\[p(X)=\frac{e^{\beta_0+\beta_1X}}{1+e^{\beta _0+\beta_1X}}\]</span></p><p>整理得出：</p><p><span class="math display">\[\ln{\frac{p(X)}{1-p(x)} } =\beta_0+\beta_1X\]</span></p><p>所有逻辑斯蒂回归可以视为一个关于 Ｘ 的线性模型</p>]]></content>
-    
-    
-    
-    <tags>
-      
-      <tag>统计学习</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
     <title>简单线性回归：基础</title>
     <link href="/post/7fda15c2.html"/>
     <url>/post/7fda15c2.html</url>
