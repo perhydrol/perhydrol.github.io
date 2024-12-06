@@ -280,7 +280,7 @@
       
       <a class="index-excerpt index-excerpt__noimg" href="/post/1daa1d28.html" target="_self">
         <div>
-          假设有以下函数。 123456789void write_read(long *src, long *dst, long n) &#123;  long cnt = n;  long val = 0;  while (cnt) &#123;    *dst = val;    val = (*src) + 1;    cnt--;  &#125;&#125; 经过测试发现，当 src 和 dst
+          理解现代处理器 乱序执行 现代处理器能够在每个时钟周期内进行多个操作，而且是乱序执行的。这得益于两个模块：指令控制单元（ICU）、执行单元（EU）。 ICU负责提前从内存中读取指令，EU负责执行指令。具体来说，ICU将会从指令高速缓存中提前一段时间将指令取出，以便进行译码操作，然后将指令发送给EU。 译码：译码单元将复杂的指令分解为多个微操作。例如，对于指令addq %rax, 8(%rd
         </div>
       </a>
 
