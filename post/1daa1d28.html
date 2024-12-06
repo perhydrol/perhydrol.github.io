@@ -19,15 +19,15 @@
   <meta name="author" content="Hydrogen">
   <meta name="keywords" content="博客,blog">
   
-    <meta name="description" content="理解内存性能 假设有以下函数。 123456789void write_read(long *src, long *dst, long n) &#123;  long cnt &#x3D; n;  long val &#x3D; 0;  while (cnt) &#123;    *dst &#x3D; val;    val &#x3D; (*src) + 1;    cnt--;  &#125;&#125; 经过测试发现，当">
+    <meta name="description" content="假设有以下函数。 123456789void write_read(long *src, long *dst, long n) &#123;  long cnt &#x3D; n;  long val &#x3D; 0;  while (cnt) &#123;    *dst &#x3D; val;    val &#x3D; (*src) + 1;    cnt--;  &#125;&#125; 经过测试发现，当 src 和 dst">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CSAPP优化程序性能-内存性能">
+<meta property="og:title" content="CSAPP优化程序性能">
 <meta property="og:url" content="https://blog.hydrogenroom.icu/post/1daa1d28.html">
 <meta property="og:site_name" content="Hydrogen&#39;s Blog">
-<meta property="og:description" content="理解内存性能 假设有以下函数。 123456789void write_read(long *src, long *dst, long n) &#123;  long cnt &#x3D; n;  long val &#x3D; 0;  while (cnt) &#123;    *dst &#x3D; val;    val &#x3D; (*src) + 1;    cnt--;  &#125;&#125; 经过测试发现，当">
+<meta property="og:description" content="假设有以下函数。 123456789void write_read(long *src, long *dst, long n) &#123;  long cnt &#x3D; n;  long val &#x3D; 0;  while (cnt) &#123;    *dst &#x3D; val;    val &#x3D; (*src) + 1;    cnt--;  &#125;&#125; 经过测试发现，当 src 和 dst">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-12-06T11:34:15.000Z">
-<meta property="article:modified_time" content="2024-12-06T11:38:49.423Z">
+<meta property="article:modified_time" content="2024-12-06T13:05:54.491Z">
 <meta property="article:author" content="Hydrogen">
 <meta property="article:tag" content="CSAPP">
 <meta name="twitter:card" content="summary_large_image">
@@ -36,7 +36,7 @@
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>CSAPP优化程序性能-内存性能 - Hydrogen&#39;s Blog</title>
+  <title>CSAPP优化程序性能 - Hydrogen&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -244,7 +244,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="CSAPP优化程序性能-内存性能"></span>
+            <span id="subtitle" data-typed-text="CSAPP优化程序性能"></span>
           
         </div>
 
@@ -267,7 +267,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          601 字
+          1k 字
         
       </span>
     
@@ -278,7 +278,7 @@
         
         
         
-          6 分钟
+          9 分钟
         
       </span>
     
@@ -324,29 +324,41 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">CSAPP优化程序性能-内存性能</h1>
+            <h1 id="seo-header">CSAPP优化程序性能</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="理解内存性能">理解内存性能</h2>
-<p>假设有以下函数。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">write_read</span><span class="hljs-params">(<span class="hljs-type">long</span> *src, <span class="hljs-type">long</span> *dst, <span class="hljs-type">long</span> n)</span> &#123;<br>  <span class="hljs-type">long</span> cnt = n;<br>  <span class="hljs-type">long</span> val = <span class="hljs-number">0</span>;<br>  <span class="hljs-keyword">while</span> (cnt) &#123;<br>    *dst = val;<br>    val = (*src) + <span class="hljs-number">1</span>;<br>    cnt--;<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+                <p>假设有以下函数。 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-type">void</span> <span class="hljs-title function_">write_read</span><span class="hljs-params">(<span class="hljs-type">long</span> *src, <span class="hljs-type">long</span> *dst, <span class="hljs-type">long</span> n)</span> &#123;<br>  <span class="hljs-type">long</span> cnt = n;<br>  <span class="hljs-type">long</span> val = <span class="hljs-number">0</span>;<br>  <span class="hljs-keyword">while</span> (cnt) &#123;<br>    *dst = val;<br>    val = (*src) + <span class="hljs-number">1</span>;<br>    cnt--;<br>  &#125;<br>&#125;<br></code></pre></td></tr></table></figure></p>
 <p>经过测试发现，当 src 和 dst
-指向不同的内存地址时（<code>write_read(&amp;a[0], &amp;a[1], 3);</code>），运行效率相较于（<code>write_read(&amp;a[0], &amp;a[0], 3);</code>）要快得多。</p>
+指向不同的内存地址时（<code>write_read(&amp;a[0], &amp;a[1], 3);</code>），运行效率相较于（<code>write_read(&amp;a[0], &amp;a[0], 3);</code>）要快得多。
+## 理解现代处理器 ### 乱序执行</p>
+<p>现代处理器能够在每个时钟周期内进行多个操作，而且是乱序执行的。这得益于两个模块：指令控制单元（ICU）、执行单元（EU）。</p>
+<p>ICU负责提前从内存中读取指令，EU负责执行指令。具体来说，ICU将会从指令高速缓存中提前一段时间将指令取出，以便进行译码操作，然后将指令发送给EU。</p>
+<p>译码：译码单元将复杂的指令分解为多个微操作。例如，对于指令<code>addq %rax, 8(%rdx)</code>，它可能会被分解为以下几个微操作：
+1.
+<strong>计算地址</strong>：将<code>%rdx</code>加上偏移量<code>8</code>以生成目标地址。
+2. <strong>加载数据</strong>：从目标地址加载值到临时寄存器。 3.
+<strong>执行加法</strong>：将<code>%rax</code>的值与临时寄存器的值相加。
+4. <strong>写回内存</strong>：将计算结果存回目标地址。</p>
+<p>这些微操作通过依赖分析后，可以乱序分派给执行单元，并行完成。</p>
+<h3 id="分支预测">分支预测</h3>
+<p>面对分支时CPU采取<strong>分支预测</strong>技术猜测是否选择分支，它有两步：
+- <strong>分支方向预测</strong>：预测是否跳转。 -
+<strong>目标地址预测</strong>：预测跳转后的指令地址。</p>
+<p>接着，CPU会在实际的分支判断完成前，直接执行预测的分支指令。如果预测错误，就返回分支点状态并执行另一条分支，这会消耗一些时间。不过现代CPU使用了多种技术来提高分支预测的准确率，因此编码时不必过分担心分支预测失败时的惩罚。</p>
+<h2 id="理解内存性能">理解内存性能</h2>
 <h3 id="读写相关">读写相关</h3>
 <p><strong>读写相关</strong>：一个内存<strong>读</strong>的结果依赖于一个最近<strong>写</strong>的内存，为了确保读取结果的正确性，CPU需要额外的处理步骤，这可能导致流水线停顿并影响性能。</p>
 <p><strong>存储缓冲区的作用</strong>：CPU中存在一个<strong>存储缓冲区</strong>，其中存储着被发射到存储单元但还没完成的数据地址和数据内容，目的是隐藏写操作的延迟，允许处理器在存储操作实际完成之前继续执行其他指令。同时存储缓冲区能够临时保存写操作，合并对一个值的多次改写以减少对内存的实际写入。</p>
 <h4 id="存储缓冲区的运行机制">存储缓冲区的运行机制</h4>
-<p>缓冲区运行时，创建条目和设置条目数据是<strong>不一定连续进行</strong>的，CPU无需等待设置数据后再进行其他指令。</p>
-<ul>
-<li>创建条目：完成目标地址计算后，立即在存储缓冲区中创建条目。</li>
-<li>设置数据：当计算完成或者数据读取完成后，设置数据值。</li>
-</ul>
-<p>这种设计避免了流水线停顿，使得CPU在等待数据生成的同时可以继续执行其他指令。</p>
+<p>缓冲区运行时，创建条目和设置条目数据是<strong>不一定连续进行</strong>的，CPU无需等待设置数据后再进行其他指令。
+- 创建条目：完成目标地址计算后，立即在存储缓冲区中创建条目。 -
+设置数据：当计算完成或者数据读取完成后，设置数据值。
+这种设计避免了流水线停顿，使得CPU在等待数据生成的同时可以继续执行其他指令。</p>
 <p><strong>存储缓冲区对读取操作的影响</strong>：但这也会导致当进行读取操作时，必须先检查被读取的数据在存储缓冲区之中是否存在，如果存在，则直接读取缓冲区中的最新数据，避免读取存储单元中的旧数据。</p>
-<p>两个地址不同：后来的数据读取操作在检查缓冲区不存在待读取数据后便可直接执行读取数据的指令。</p>
-<p>两个地址相同：后续的数据读取指令需要等待存储缓冲区中的条目数据填充完成后才能执行，也就是出现了数据相关性。这导致CPU无法充分利用乱序执行和流水线并行来加速操作。</p>
+<p>两个地址不同：后来的数据读取操作在检查缓冲区不存在待读取数据后便可直接执行读取数据的指令。
+两个地址相同：后续的数据读取指令需要等待存储缓冲区中的条目数据填充完成后才能执行，也就是出现了数据相关性。这导致CPU无法充分利用乱序执行和流水线并行来加速操作。</p>
 
                 
               </div>
@@ -371,7 +383,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>CSAPP优化程序性能-内存性能</div>
+      <div>CSAPP优化程序性能</div>
       <div>https://blog.hydrogenroom.icu/post/1daa1d28.html</div>
     </div>
     <div class="license-meta">
@@ -432,8 +444,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/post/b6d2dc63.html" title="客观合理地期待星空（Starfield)——为什么我相信 &#34;It just works.&#34;">
-                        <span class="hidden-mobile">客观合理地期待星空（Starfield)——为什么我相信 &#34;It just works.&#34;</span>
+                      <a href="/post/87235622.html" title="创造性破坏-熊彼特质量阶梯模型（Aghion and Howitt 毁灭创新模型）">
+                        <span class="hidden-mobile">创造性破坏-熊彼特质量阶梯模型（Aghion and Howitt 毁灭创新模型）</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
