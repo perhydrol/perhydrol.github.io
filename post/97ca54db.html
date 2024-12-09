@@ -21,13 +21,13 @@
   
     <meta name="description" content="进程 进程是一个执行中的程序的实例，它是操作系统分配资源（如CPU时间、内存等）的基本单位。同时操作系统给我们的程序提供一种假象：我们独占所有CPU和内存，而进程是操作系统管理程序的方式。 操作系统为进程维护着一个上下文，包含了程序正确运行所需的状态。 父进程&amp;子进程 父进程在创建子进程后，子进程和父进程拥有各自独立的内存空间。但操作系统使用写时复制（Copy-On-Write，C">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CSAPP-异常控制流">
-<meta property="og:url" content="https://blog.hydrogenroom.icu/post/6738efd6.html">
+<meta property="og:title" content="CSAPP-进程">
+<meta property="og:url" content="https://blog.hydrogenroom.icu/post/97ca54db.html">
 <meta property="og:site_name" content="Hydrogen&#39;s Blog">
 <meta property="og:description" content="进程 进程是一个执行中的程序的实例，它是操作系统分配资源（如CPU时间、内存等）的基本单位。同时操作系统给我们的程序提供一种假象：我们独占所有CPU和内存，而进程是操作系统管理程序的方式。 操作系统为进程维护着一个上下文，包含了程序正确运行所需的状态。 父进程&amp;子进程 父进程在创建子进程后，子进程和父进程拥有各自独立的内存空间。但操作系统使用写时复制（Copy-On-Write，C">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-12-09T13:07:30.000Z">
-<meta property="article:modified_time" content="2024-12-09T13:08:18.161Z">
+<meta property="article:published_time" content="2024-12-09T13:46:11.000Z">
+<meta property="article:modified_time" content="2024-12-09T13:46:41.720Z">
 <meta property="article:author" content="Hydrogen">
 <meta property="article:tag" content="CSAPP">
 <meta name="twitter:card" content="summary_large_image">
@@ -36,7 +36,7 @@
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>CSAPP-异常控制流 - Hydrogen&#39;s Blog</title>
+  <title>CSAPP-进程 - Hydrogen&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -244,7 +244,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="CSAPP-异常控制流"></span>
+            <span id="subtitle" data-typed-text="CSAPP-进程"></span>
           
         </div>
 
@@ -255,7 +255,7 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-12-09 21:07" pubdate>
+        <time datetime="2024-12-09 21:46" pubdate>
           2024年12月9日 晚上
         </time>
       </span>
@@ -324,7 +324,7 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">CSAPP-异常控制流</h1>
+            <h1 id="seo-header">CSAPP-进程</h1>
             
             
               <div class="markdown-body">
@@ -339,8 +339,8 @@
 或者收到终止信号时，它的资源（如内存、文件描述符等）会被释放，但子进程的<strong>进程表条目</strong>仍然保留在进程表中，直到父进程调用
 <code>wait()</code> 或 <code>waitpid()</code>
 获取子进程的退出状态并将其清理掉。父进程通过这些系统调用来回收子进程的状态信息，并从进程表中删除子进程条目。</p>
-<p>僵死进程：如果进程在停止运行后没有被及时回收，这个子进程将会成为僵死进程。</p>
-<p>孤儿进程：如果子进程还未被回收，而父进程先退出，子进程会成为孤儿进程。操作系统会将孤儿进程的父进程设置为
+<p><strong>僵死进程</strong>：如果进程在停止运行后没有被及时回收，这个子进程将会成为僵死进程。</p>
+<p><strong>孤儿进程</strong>：如果子进程还未被回收，而父进程先退出，子进程会成为孤儿进程。操作系统会将孤儿进程的父进程设置为
 PID 为 1 的 <code>init</code> 进程（现在大部分 Linux 系统中为
 <code>systemd</code>）。<code>init</code>
 会负责回收这些孤儿进程，避免它们变成僵死进程，由它们负责回收工作。</p>
@@ -367,9 +367,9 @@ IO 设备、停止处理器等，这些需要通过系统调用向操作系统�
 <p>前面提到：操作系统为进程维护着一个上下文，包含了程序正确运行所需的状态。比如：地址空间的页表、当前进程信息的进程表、进程已打开文件的文件表等。</p>
 <p>当内核调度新进程时，内核会先抢占当前进程并进行以下操作：</p>
 <ol type="1">
-<li><p>保存当前进程上下文，以便日后恢复。</p></li>
-<li><p>恢复被调度的进程的上下文。</p></li>
-<li><p>将控制权转交给新进程。</p></li>
+<li>保存当前进程上下文，以便日后恢复。</li>
+<li>恢复被调度的进程的上下文。</li>
+<li>将控制权转交给新进程。</li>
 </ol>
 <p>值得一提的是，当发生异常导致进程从用户模式转向内核模式时，进程极有可能被执行上下文切换以运行其他进程。</p>
 
@@ -396,8 +396,8 @@ IO 设备、停止处理器等，这些需要通过系统调用向操作系统�
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>CSAPP-异常控制流</div>
-      <div>https://blog.hydrogenroom.icu/post/6738efd6.html</div>
+      <div>CSAPP-进程</div>
+      <div>https://blog.hydrogenroom.icu/post/97ca54db.html</div>
     </div>
     <div class="license-meta">
       
@@ -453,18 +453,12 @@ IO 设备、停止处理器等，这些需要通过系统调用向操作系统�
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/post/97ca54db.html" title="CSAPP-进程">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">CSAPP-进程</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/post/1daa1d28.html" title="CSAPP-优化程序性能">
-                        <span class="hidden-mobile">CSAPP-优化程序性能</span>
+                      <a href="/post/6738efd6.html" title="CSAPP-异常控制流">
+                        <span class="hidden-mobile">CSAPP-异常控制流</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
