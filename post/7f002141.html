@@ -27,7 +27,7 @@
 <meta property="og:description" content="地址空间 计算机通过CPU和操作系统的紧密结合，构建了被称为虚拟寻址的技术。 虚拟寻址：CPU不再直接访问内存，而是通过一个地址翻译（MMU）单元将虚拟地址映射到物理地址上。 内存被抽象为一个巨大的数组，其中地址空间是一个非负整数地址的有序集合，就像是数组的下标。地址空间的大小是由表示最大地址所需的位数来决定的，比如64位操作系统的地址空间为 \([0,...,2^{64}-1]\) 。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-12-09T13:48:26.000Z">
-<meta property="article:modified_time" content="2024-12-09T13:49:30.902Z">
+<meta property="article:modified_time" content="2024-12-10T12:39:40.112Z">
 <meta property="article:author" content="Hydrogen">
 <meta property="article:tag" content="CSAPP">
 <meta name="twitter:card" content="summary_large_image">
@@ -267,7 +267,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          916 字
+          1.9k 字
         
       </span>
     
@@ -278,7 +278,7 @@
         
         
         
-          8 分钟
+          16 分钟
         
       </span>
     
@@ -350,6 +350,60 @@
 <p>缺页异常：当试图访问一个并未缓存在DRAM（内存）中的页表时，操作系统会触发缺页异常，导致进程从用户态切换到内核态。操作系统会根据页表的映射信息，查找该虚拟页对应的物理页。如果该页在磁盘上，操作系统将从磁盘加载该页到内存。若物理内存已满，操作系统将选择一个页进行换出，这个页被称为“牺牲页”。如果该牺牲页被修改过，操作系统会将其内容写回磁盘。由于磁盘的性能很慢，频繁的缺页会导致程序性能下降。</p>
 <p>值得一提的是，操作系统为每个进程维护一份独立的页表，而<strong>多个虚拟页面有时可以映射到同一个物理内存页上</strong>。这种映射关系为进程间的写时复制提供了可能。</p>
 <p>尽管我们之前一直将地址空间描述为连续的，但由于虚拟内存和物理内存之间存在映射关系，实际上物理内存的存储可能是不连续的。也就是说，虚拟页面可能会映射到物理内存中的不同位置，这些物理页帧可以是分散存储的。</p>
+<h2 id="linux-虚拟内存系统">Linux 虚拟内存系统</h2>
+<p>虚拟内存可以被分为两部分：内核虚拟内存、进程虚拟内存。</p>
+<p>内核虚拟内存：内核虚拟内存是由操作系统内核进行管理，并且该部分内存的分配是固定的。它的主要内容包括：</p>
+<ul>
+<li><strong>每个进程都独立的部分</strong>：如页表、内核栈、任务结构（<code>task_struct</code>）。</li>
+<li><strong>每个进程共享的部分</strong>：如内核代码、内核数据等。</li>
+</ul>
+<p>内核虚拟内存的使用范围通常是内核空间，且所有进程共享同一个内核地址空间。</p>
+<p>进程虚拟内存：每个进程都有自己的独立虚拟地址空间，其中包括以下几个主要区域：</p>
+<ul>
+<li><strong>代码段</strong>：存储程序的指令。</li>
+<li><strong>数据段</strong>：存储静态数据和全局变量。</li>
+<li><strong>堆</strong>：用于动态分配内存（如
+<code>malloc</code>）。</li>
+<li><strong>栈</strong>：用于存储局部变量和函数调用信息。</li>
+</ul>
+<h3 id="段区域">段（区域）</h3>
+<p>段（又称区域）是用来划分不同类型的内存区域。每个段包含多个虚拟内存页。常见的段包括代码段、数据段、堆、栈等。所有已分配的虚拟页均属于某个段，不存在不属于某个段的已分配虚拟页。</p>
+<h2 id="缺页异常">缺页异常</h2>
+<p>当进程触发了缺页异常时，Linux 内核会执行以下步骤：</p>
+<ol type="1">
+<li>虚拟地址是否合法：准备搜索的地址是否属于某个区域，如果不是将引发<strong>段错误（Segmentation
+Fault）</strong>，导致进程被终止。</li>
+<li>访问操作是否合法：如果虚拟地址合法，内核将检查访问操作是否符合权限。比如，检查进程是否试图在只读区域进行写操作，或用户进程是否试图访问内核空间。如果访问不合法，进程将被终止。</li>
+<li><strong>加载缺失的内存页</strong>：如果虚拟地址有效且操作合法，内核将通过页表查找对应的物理内存。如果该页尚未加载到物理内存中，内核会将该页从磁盘加载到物理内存，并更新页表。然后，进程可以重新执行原来的操作，继续访问加载的内存页。</li>
+</ol>
+<p>当我读到这里时，我有个疑惑：CSAPP
+中总是提及页面异常有一步“选择牺牲页，然后交换出去。”那么，发生以下有两种情况会如何？</p>
+<ol type="1">
+<li>有大量的空闲内存可用时，操作系统为何不使用空闲内存进行分配。</li>
+<li>如果我关闭了swap分区，那么我还会触发页面异常吗？</li>
+</ol>
+<p>我试图搜索了一下，以下是我的收获：</p>
+<blockquote>
+<p>Assuming there is free memory available, the initial page fault will
+grab a page of free memory and zero it out. This is no slower than
+grabbing a page of free memory and zeroing it out at allocation time.
+——<a
+target="_blank" rel="noopener" href="https://devblogs.microsoft.com/oldnewthing/20170512-00/?p=96146">Microsoft
+Dev Blogs</a></p>
+</blockquote>
+<blockquote>
+<p>假设有空闲内存可用，初始的缺页异常会分配一页空闲内存并将其清零。这一操作的速度与在分配时获取一页空闲内存并将其清零一样快。——<a
+target="_blank" rel="noopener" href="https://devblogs.microsoft.com/oldnewthing/20170512-00/?p=96146">Microsoft
+Dev Blogs</a></p>
+</blockquote>
+<p>也就是说，如果系统有足够的空闲内存，操作系统会直接将该虚拟内存页映射到一块空闲的物理内存中。此时，不需要通过磁盘或
+swap 来加载页面，因为空闲内存已经可以满足需求。</p>
+<p>那么，如果我关闭了 swap 分区，操作系统将面对两种可能： 1.
+有空闲内存，那么就正常使用空闲内存即可。 2.
+没有空闲内存：杀掉进程来腾出空间；或者直接拒绝内存请求。</p>
+<p>同时，我也意识到这是操作系统用来增加一个进程可用内存的机制：当进程需要更多内存时（比如栈的增长和手动
+malloc()
+请求），操作系统会先为其分配一个新的内存页。然后等到进程实际上访问该内存页时通过触发页错误来实际增加内存。</p>
 
                 
               </div>
@@ -493,6 +547,12 @@
 
 
   
+
+
+  
+  
+
+
 
 
 
@@ -711,6 +771,49 @@
 
 
   <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
 
   <script  src="/js/local-search.js" ></script>
 
