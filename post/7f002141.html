@@ -27,7 +27,7 @@
 <meta property="og:description" content="地址空间 计算机通过CPU和操作系统的紧密结合，构建了被称为虚拟寻址的技术。 虚拟寻址：CPU不再直接访问内存，而是通过一个地址翻译（MMU）单元将虚拟地址映射到物理地址上。 内存被抽象为一个巨大的数组，其中地址空间是一个非负整数地址的有序集合，就像是数组的下标。地址空间的大小是由表示最大地址所需的位数来决定的，比如64位操作系统的地址空间为 \([0,...,2^{64}-1]\) 。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2024-12-09T13:48:26.000Z">
-<meta property="article:modified_time" content="2024-12-10T12:42:07.952Z">
+<meta property="article:modified_time" content="2024-12-11T05:35:24.335Z">
 <meta property="article:author" content="Hydrogen">
 <meta property="article:tag" content="CSAPP">
 <meta name="twitter:card" content="summary_large_image">
@@ -267,7 +267,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.9k 字
+          2.5k 字
         
       </span>
     
@@ -278,7 +278,7 @@
         
         
         
-          16 分钟
+          22 分钟
         
       </span>
     
@@ -386,8 +386,8 @@ Fault）</strong>，导致进程被终止。</li>
 <blockquote>
 <p>Assuming there is free memory available, the initial page fault will
 grab a page of free memory and zero it out. This is no slower than
-grabbing a page of free memory and zeroing it out at allocation time.
-——<a
+grabbing a page of free memory and zeroing it out at allocation
+time.——<a
 target="_blank" rel="noopener" href="https://devblogs.microsoft.com/oldnewthing/20170512-00/?p=96146">Microsoft
 Dev Blogs</a></p>
 </blockquote>
@@ -405,7 +405,23 @@ swap 来加载页面，因为空闲内存已经可以满足需求。</p>
 </ol>
 <p>同时，我也意识到这是操作系统用来增加一个进程可用内存的机制：当进程需要更多内存时（比如栈的增长和手动
 malloc()
-请求），操作系统会先为其分配一个新的内存页。然后等到进程实际上访问该内存页时通过触发页错误来实际增加内存。</p>
+请求），操作系统会先为其分配一个新的内存页。然后等到进程实际上访问该内存页时通过触发缺页异常来实际增加内存。</p>
+<h3 id="内存映射">内存映射</h3>
+<p>虚拟内存的内存页可以被分为两种类型：普通文件的映射，匿名文件的映射。</p>
+<p>普通文件的映射：当程序需要访问硬盘上的文件时，操作系统通过内存映射将文件的一部分（通常是以页为单位）映射到进程的虚拟内存空间。只有在程序访问这些内存页时，操作系统才会实际地将文件的内容加载到物理内存中。</p>
+<p>匿名文件的映射：匿名映射是由操作系统内核创建的内存区域，不与任何文件对应。它通常用于程序运行时的内存分配需求，例如堆空间的分配，以及进程的栈空间。</p>
+<h4 id="共享对象">共享对象</h4>
+<p>大部分程序中存在大量共用的库文件，为了避免每个进程单独加载库文件所带来的内存开销。内存映射提供了多个进程共享对象的机制。</p>
+<p>一个对象被映射到内存区域时，要么成为<strong>共享对象</strong>，要么成为<strong>私有对象</strong>。</p>
+<p>共享对象：当一个进程对共享对象进行了合法的写操作，改变了对象的内容时其他进程也将同步这份修改，因为共享对象是同一份内容的映射。</p>
+<p>私有对象：私有对象被进程合法修改时，其他进程是不可见的。同时，这份修改也不会被同步至磁盘的原文件中。创建子进程时的写时复制操作针对的就是私有对象。</p>
+<h4 id="写时复制">写时复制</h4>
+<p>一开始，父进程和子进程将同一份物理副本映射至自身虚拟内存的不同区域。操作系统将这些私有对象的<strong>页表条目</strong>设置为<strong>只读</strong>，以防止进程在不触发写时复制的情况下修改内存。同时，整个区域被标记为<strong>私有的写时复制</strong>。</p>
+<p>当一个进程修改了这部分内容，将触发保护异常。然后，操作系统将会发现进程在更改私有的写时复制区域，那么操作系统将会创建这个页面的新副本，更新页表条目将其指向这份副本并恢复写权限。接着返回程序继续运行。</p>
+<h4 id="创建内存映射">创建内存映射</h4>
+<p>Linux 中可以使用 mmap
+函数来创建新的虚拟内存区域，并将对象映射到这些区域中。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/mman.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><br><span class="hljs-type">void</span> *<span class="hljs-title function_">mmap</span><span class="hljs-params">(<span class="hljs-type">void</span> *start,<span class="hljs-type">size_t</span> lenght,<span class="hljs-type">int</span> prot,<span class="hljs-type">int</span> flags,<span class="hljs-type">int</span> fd,<span class="hljs-type">off_t</span> offset)</span>;<br></code></pre></td></tr></table></figure>
 
                 
               </div>
