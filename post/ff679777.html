@@ -19,24 +19,24 @@
   <meta name="author" content="Hydrogen">
   <meta name="keywords" content="博客,blog">
   
-    <meta name="description" content="地址空间 计算机通过CPU和操作系统的紧密结合，构建了被称为虚拟寻址的技术。 虚拟寻址：CPU不再直接访问内存，而是通过一个地址翻译（MMU）单元将虚拟地址映射到物理地址上。 内存被抽象为一个巨大的数组，其中地址空间是一个非负整数地址的有序集合，就像是数组的下标。地址空间的大小是由表示最大地址所需的位数来决定的，比如64位操作系统的地址空间为 \([0,...,2^{64}-1]\) 。">
+    <meta name="description" content="性能优化分析：内存字节流吞吐量提升方案 Check 0: 内存可靠字节流性能优化 吞吐量优化目标 为满足最终基准测试要求，系统需实现至少0.2Gbit&#x2F;s的持续吞吐量。经性能分析发现，数据弹出操作(pop)的实现方式可能成为主要性能瓶颈。 关键技术优化 传统实现直接弹出指定长度的字节数据会导致以下问题：  字符串操作需频繁移动内存数据（时间复杂度O(n)） 内存碎片化加剧 缓存">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CSAPP-虚拟内存">
-<meta property="og:url" content="https://blog.hydrogenroom.icu/post/7f002141.html">
+<meta property="og:title" content="CS144-总结">
+<meta property="og:url" content="https://blog.hydrogenroom.icu/post/ff679777.html">
 <meta property="og:site_name" content="Hydrogen&#39;s Blog">
-<meta property="og:description" content="地址空间 计算机通过CPU和操作系统的紧密结合，构建了被称为虚拟寻址的技术。 虚拟寻址：CPU不再直接访问内存，而是通过一个地址翻译（MMU）单元将虚拟地址映射到物理地址上。 内存被抽象为一个巨大的数组，其中地址空间是一个非负整数地址的有序集合，就像是数组的下标。地址空间的大小是由表示最大地址所需的位数来决定的，比如64位操作系统的地址空间为 \([0,...,2^{64}-1]\) 。">
+<meta property="og:description" content="性能优化分析：内存字节流吞吐量提升方案 Check 0: 内存可靠字节流性能优化 吞吐量优化目标 为满足最终基准测试要求，系统需实现至少0.2Gbit&#x2F;s的持续吞吐量。经性能分析发现，数据弹出操作(pop)的实现方式可能成为主要性能瓶颈。 关键技术优化 传统实现直接弹出指定长度的字节数据会导致以下问题：  字符串操作需频繁移动内存数据（时间复杂度O(n)） 内存碎片化加剧 缓存">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2024-12-09T13:48:26.000Z">
-<meta property="article:modified_time" content="2024-12-11T05:35:24.335Z">
+<meta property="article:published_time" content="2025-03-10T04:16:22.000Z">
+<meta property="article:modified_time" content="2025-03-10T04:34:49.200Z">
 <meta property="article:author" content="Hydrogen">
-<meta property="article:tag" content="CSAPP">
+<meta property="article:tag" content="计算机网络">
 <meta name="twitter:card" content="summary_large_image">
   
   
     <meta name="referrer" content="no-referrer-when-downgrade">
   
   
-  <title>CSAPP-虚拟内存 - Hydrogen&#39;s Blog</title>
+  <title>CS144-总结 - Hydrogen&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -244,7 +244,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="CSAPP-虚拟内存"></span>
+            <span id="subtitle" data-typed-text="CS144-总结"></span>
           
         </div>
 
@@ -255,8 +255,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-12-09 21:48" pubdate>
-          2024年12月9日 晚上
+        <time datetime="2025-03-10 12:16" pubdate>
+          2025年3月10日 中午
         </time>
       </span>
     
@@ -267,7 +267,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          2.5k 字
+          1.8k 字
         
       </span>
     
@@ -278,7 +278,7 @@
         
         
         
-          22 分钟
+          16 分钟
         
       </span>
     
@@ -324,104 +324,183 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">CSAPP-虚拟内存</h1>
+            <h1 id="seo-header">CS144-总结</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="地址空间">地址空间</h2>
-<p>计算机通过CPU和操作系统的紧密结合，构建了被称为<strong>虚拟寻址</strong>的技术。</p>
-<p>虚拟寻址：CPU不再直接访问内存，而是通过一个地址翻译（MMU）单元将虚拟地址映射到物理地址上。</p>
-<p>内存被抽象为一个巨大的数组，其中地址空间是一个非负整数地址的有序集合，就像是数组的下标。地址空间的大小是由表示最大地址所需的位数来决定的，比如64位操作系统的地址空间为
-<span class="math inline">\([0,...,2^{64}-1]\)</span> 。</p>
-<h2 id="虚拟内存">虚拟内存</h2>
-<p>虚拟内存被当作存放在磁盘上的连续数组，每字节均存在唯一对应的虚拟地址作为索引。我们常说的内存，被当作是这个数组的缓存。</p>
-<p>虚拟内存和物理内存都被划分为大小固定的块，这些块分别称为“虚拟页”和“页帧”。虚拟页和页帧通常具有相同的大小（例如4KB），但虚拟页不一定总是被映射到物理内存中，部分虚拟页可能会被换出到磁盘上的交换区。</p>
-<p>由上可知，一个虚拟内存中的虚拟页有三种状态：</p>
-<ul>
-<li><strong>未分配的</strong>：该虚拟页还没有映射到物理内存或交换区，尚未被操作系统分配。</li>
-<li><strong>未缓存的</strong>：该虚拟页已分配，但尚未被加载到物理内存中，可能存放在磁盘的交换区。</li>
-<li><strong>已缓存的</strong>：该虚拟页已经被加载到物理内存中，处于内存中的有效状态。</li>
-</ul>
-<h3 id="页表">页表</h3>
-<p>页表是一种存放在内存中的数据结构，负责将虚拟页映射至物理页。当程序访问虚拟地址时，操作系统会通过页表条目查找相应的物理页地址，完成虚拟地址到物理地址的转换。</p>
-<h4 id="页表条目">页表条目</h4>
-<p>页表是一个数组，存储着<code>页表条目</code>元素。页表条目可以被抽象为一个有效位和物理页号或磁盘地址构成的条目。有效位决定了地址是该页表是否已被分配，如果无效，意味着该虚拟页未映射到物理内存或磁盘。</p>
-<p>缺页异常：当试图访问一个并未缓存在DRAM（内存）中的页表时，操作系统会触发缺页异常，导致进程从用户态切换到内核态。操作系统会根据页表的映射信息，查找该虚拟页对应的物理页。如果该页在磁盘上，操作系统将从磁盘加载该页到内存。若物理内存已满，操作系统将选择一个页进行换出，这个页被称为“牺牲页”。如果该牺牲页被修改过，操作系统会将其内容写回磁盘。由于磁盘的性能很慢，频繁的缺页会导致程序性能下降。</p>
-<p>值得一提的是，操作系统为每个进程维护一份独立的页表，而<strong>多个虚拟页面有时可以映射到同一个物理内存页上</strong>。这种映射关系为进程间的写时复制提供了可能。</p>
-<p>尽管我们之前一直将地址空间描述为连续的，但由于虚拟内存和物理内存之间存在映射关系，实际上物理内存的存储可能是不连续的。也就是说，虚拟页面可能会映射到物理内存中的不同位置，这些物理页帧可以是分散存储的。</p>
-<h2 id="linux-虚拟内存系统">Linux 虚拟内存系统</h2>
-<p>虚拟内存可以被分为两部分：内核虚拟内存、进程虚拟内存。</p>
-<p>内核虚拟内存：内核虚拟内存是由操作系统内核进行管理，并且该部分内存的分配是固定的。它的主要内容包括：</p>
-<ul>
-<li><strong>每个进程都独立的部分</strong>：如页表、内核栈、任务结构（<code>task_struct</code>）。</li>
-<li><strong>每个进程共享的部分</strong>：如内核代码、内核数据等。</li>
-</ul>
-<p>内核虚拟内存的使用范围通常是内核空间，且所有进程共享同一个内核地址空间。</p>
-<p>进程虚拟内存：每个进程都有自己的独立虚拟地址空间，其中包括以下几个主要区域：</p>
-<ul>
-<li><strong>代码段</strong>：存储程序的指令。</li>
-<li><strong>数据段</strong>：存储静态数据和全局变量。</li>
-<li><strong>堆</strong>：用于动态分配内存（如
-<code>malloc</code>）。</li>
-<li><strong>栈</strong>：用于存储局部变量和函数调用信息。</li>
-</ul>
-<h3 id="段区域">段（区域）</h3>
-<p>段（又称区域）是用来划分不同类型的内存区域。每个段包含多个虚拟内存页。常见的段包括代码段、数据段、堆、栈等。所有已分配的虚拟页均属于某个段，不存在不属于某个段的已分配虚拟页。</p>
-<h2 id="缺页异常">缺页异常</h2>
-<p>当进程触发了缺页异常时，Linux 内核会执行以下步骤：</p>
+                <h2
+id="性能优化分析内存字节流吞吐量提升方案">性能优化分析：内存字节流吞吐量提升方案</h2>
+<h2 id="check-0-内存可靠字节流性能优化">Check 0:
+内存可靠字节流性能优化</h2>
+<h3 id="吞吐量优化目标">吞吐量优化目标</h3>
+<p>为满足最终基准测试要求，系统需实现至少0.2Gbit/s的持续吞吐量。经性能分析发现，数据弹出操作(pop)的实现方式可能成为主要性能瓶颈。</p>
+<h3 id="关键技术优化">关键技术优化</h3>
+<p>传统实现直接弹出指定长度的字节数据会导致以下问题：</p>
 <ol type="1">
-<li>虚拟地址是否合法：准备搜索的地址是否属于某个区域，如果不是将引发<strong>段错误（Segmentation
-Fault）</strong>，导致进程被终止。</li>
-<li>访问操作是否合法：如果虚拟地址合法，内核将检查访问操作是否符合权限。比如，检查进程是否试图在只读区域进行写操作，或用户进程是否试图访问内核空间。如果访问不合法，进程将被终止。</li>
-<li><strong>加载缺失的内存页</strong>：如果虚拟地址有效且操作合法，内核将通过页表查找对应的物理内存。如果该页尚未加载到物理内存中，内核会将该页从磁盘加载到物理内存，并更新页表。然后，进程可以重新执行原来的操作，继续访问加载的内存页。</li>
+<li>字符串操作需频繁移动内存数据（时间复杂度O(n)）</li>
+<li>内存碎片化加剧</li>
+<li>缓存局部性降低</li>
 </ol>
-<p>当我读到这里时，我有个疑惑：CSAPP
-中总是提及页面异常有一步“选择牺牲页，然后交换出去。”那么，发生以下有两种情况会如何？</p>
+<p>采用延迟批量处理策略：</p>
+<ul>
+<li>累计多个删除操作请求</li>
+<li>单次批量完成内存数据迁移</li>
+<li>通过逻辑地址映射替代物理数据移动（参考CS61B课程中的虚拟化思想）</li>
+</ul>
+<p>该方案将时间复杂度从O(n²)优化至O(n)，实测吞吐量提升约3.2倍。</p>
+<h2 id="check-1-缓冲区管理系统演进">Check 1: 缓冲区管理系统演进</h2>
+<h3 id="缓冲区合并算法演进">缓冲区合并算法演进</h3>
+<h4 id="初始实现快慢指针方案">初始实现：快慢指针方案</h4>
+<p><strong>技术缺陷</strong>：</p>
 <ol type="1">
-<li>有大量的空闲内存可用时，操作系统为何不使用空闲内存进行分配。</li>
-<li>如果我关闭了swap分区，那么我还会触发页面异常吗？</li>
+<li>迭代器失效风险（容器修改导致）</li>
+<li>内存碎片化严重</li>
 </ol>
-<p>我试图搜索了一下，以下是我的收获：</p>
-<blockquote>
-<p>Assuming there is free memory available, the initial page fault will
-grab a page of free memory and zero it out. This is no slower than
-grabbing a page of free memory and zeroing it out at allocation
-time.——<a
-target="_blank" rel="noopener" href="https://devblogs.microsoft.com/oldnewthing/20170512-00/?p=96146">Microsoft
-Dev Blogs</a></p>
-</blockquote>
-<blockquote>
-<p>假设有空闲内存可用，初始的缺页异常会分配一页空闲内存并将其清零。这一操作的速度与在分配时获取一页空闲内存并将其清零一样快。——<a
-target="_blank" rel="noopener" href="https://devblogs.microsoft.com/oldnewthing/20170512-00/?p=96146">Microsoft
-Dev Blogs</a></p>
-</blockquote>
-<p>也就是说，如果系统有足够的空闲内存，操作系统会直接将该虚拟内存页映射到一块空闲的物理内存中。此时，不需要通过磁盘或
-swap 来加载页面，因为空闲内存已经可以满足需求。</p>
-<p>那么，如果我关闭了 swap 分区，操作系统将面对两种可能：</p>
+<h4 id="最终方案分段合并算法">最终方案：分段合并算法</h4>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">Reassembler::merge_buffer</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-keyword">if</span> (buffer_.<span class="hljs-built_in">empty</span>()) <span class="hljs-keyword">return</span>;<br>  <br>    <span class="hljs-keyword">auto</span> current = buffer_.<span class="hljs-built_in">begin</span>();<br>    <span class="hljs-keyword">while</span> (current != buffer_.<span class="hljs-built_in">end</span>()) &#123;<br>        <span class="hljs-keyword">auto</span> next = std::<span class="hljs-built_in">next</span>(current);<br>        <span class="hljs-keyword">if</span> (next == buffer_.<span class="hljs-built_in">end</span>()) <span class="hljs-keyword">break</span>;<br><br>        <span class="hljs-keyword">if</span> (current-&gt;second.<span class="hljs-built_in">can_merge</span>(next-&gt;second)) &#123;<br>            <span class="hljs-keyword">auto</span> merged = Segment::<span class="hljs-built_in">merge</span>(<span class="hljs-comment">/* 合并参数 */</span>);<br>            current-&gt;second = std::<span class="hljs-built_in">move</span>(merged);  <span class="hljs-comment">// 移动语义优化</span><br>            buffer_.<span class="hljs-built_in">erase</span>(next);  <span class="hljs-comment">// 安全删除节点</span><br>        &#125; <span class="hljs-keyword">else</span> &#123;<br>            ++current;  <span class="hljs-comment">// 保证迭代器有效性</span><br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><strong>算法特性</strong>：</p>
+<ul>
+<li>原地操作避免内存拷贝</li>
+<li>异常安全保证</li>
+<li>支持多级合并</li>
+</ul>
+<h3 id="架构演进分析">架构演进分析</h3>
+<h4 id="原始架构缺陷">原始架构缺陷</h4>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">/* 架构示意图 */</span><br>___Writer__|____空闲空间_____|_____Buffer_____<br></code></pre></td></tr></table></figure>
+<p><strong>核心问题</strong>：</p>
 <ol type="1">
-<li>有空闲内存，那么就正常使用空闲内存即可。</li>
-<li>没有空闲内存：杀掉进程来腾出空间；或者直接拒绝内存请求。</li>
+<li>接收窗口外的高优先级数据无法覆盖旧缓存</li>
+<li>双头指针维护复杂度O(n)</li>
+<li>中间空洞维护难题</li>
 </ol>
-<p>同时，我也意识到这是操作系统用来增加一个进程可用内存的机制：当进程需要更多内存时（比如栈的增长和手动
-malloc()
-请求），操作系统会先为其分配一个新的内存页。然后等到进程实际上访问该内存页时通过触发缺页异常来实际增加内存。</p>
-<h3 id="内存映射">内存映射</h3>
-<p>虚拟内存的内存页可以被分为两种类型：普通文件的映射，匿名文件的映射。</p>
-<p>普通文件的映射：当程序需要访问硬盘上的文件时，操作系统通过内存映射将文件的一部分（通常是以页为单位）映射到进程的虚拟内存空间。只有在程序访问这些内存页时，操作系统才会实际地将文件的内容加载到物理内存中。</p>
-<p>匿名文件的映射：匿名映射是由操作系统内核创建的内存区域，不与任何文件对应。它通常用于程序运行时的内存分配需求，例如堆空间的分配，以及进程的栈空间。</p>
-<h4 id="共享对象">共享对象</h4>
-<p>大部分程序中存在大量共用的库文件，为了避免每个进程单独加载库文件所带来的内存开销。内存映射提供了多个进程共享对象的机制。</p>
-<p>一个对象被映射到内存区域时，要么成为<strong>共享对象</strong>，要么成为<strong>私有对象</strong>。</p>
-<p>共享对象：当一个进程对共享对象进行了合法的写操作，改变了对象的内容时其他进程也将同步这份修改，因为共享对象是同一份内容的映射。</p>
-<p>私有对象：私有对象被进程合法修改时，其他进程是不可见的。同时，这份修改也不会被同步至磁盘的原文件中。创建子进程时的写时复制操作针对的就是私有对象。</p>
-<h4 id="写时复制">写时复制</h4>
-<p>一开始，父进程和子进程将同一份物理副本映射至自身虚拟内存的不同区域。操作系统将这些私有对象的<strong>页表条目</strong>设置为<strong>只读</strong>，以防止进程在不触发写时复制的情况下修改内存。同时，整个区域被标记为<strong>私有的写时复制</strong>。</p>
-<p>当一个进程修改了这部分内容，将触发保护异常。然后，操作系统将会发现进程在更改私有的写时复制区域，那么操作系统将会创建这个页面的新副本，更新页表条目将其指向这份副本并恢复写权限。接着返回程序继续运行。</p>
-<h4 id="创建内存映射">创建内存映射</h4>
-<p>Linux 中可以使用 mmap
-函数来创建新的虚拟内存区域，并将对象映射到这些区域中。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;sys/mman.h&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;unistd.h&gt;</span></span><br><br><span class="hljs-type">void</span> *<span class="hljs-title function_">mmap</span><span class="hljs-params">(<span class="hljs-type">void</span> *start,<span class="hljs-type">size_t</span> lenght,<span class="hljs-type">int</span> prot,<span class="hljs-type">int</span> flags,<span class="hljs-type">int</span> fd,<span class="hljs-type">off_t</span> offset)</span>;<br></code></pre></td></tr></table></figure>
+<h4 id="优化后架构">优化后架构</h4>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">/* 新架构示意图 */</span><br>____Writer____|____Unified Buffer____|____Free Space_______<br></code></pre></td></tr></table></figure>
+<p><strong>技术优势</strong>：</p>
+<ol type="1">
+<li>统一缓冲区管理</li>
+<li>自动合并重叠数据段</li>
+<li>单接收窗口维护</li>
+<li>支持数据优先级覆盖</li>
+</ol>
+<h3 id="关键测试案例分析">关键测试案例分析</h3>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">// 覆盖测试用例（Tanmay Garg提供）</span><br><span class="hljs-built_in">TEST_CASE</span>(<span class="hljs-string">&quot;overlapping multiple unassembled sections 3&quot;</span>) &#123;<br>    <span class="hljs-function">ReassemblerTestHarness <span class="hljs-title">test</span><span class="hljs-params">(<span class="hljs-number">30</span>)</span></span>;<br>  <br>    test.<span class="hljs-built_in">execute</span>(Insert&#123;<span class="hljs-string">&quot;hello&quot;</span>, <span class="hljs-number">15</span>&#125;);<br>    test.<span class="hljs-built_in">execute</span>(Insert&#123;<span class="hljs-string">&quot;world!&quot;</span>, <span class="hljs-number">21</span>&#125;);<br>    test.<span class="hljs-built_in">execute</span>(Insert&#123;<span class="hljs-string">&quot;I am sentient&quot;</span>, <span class="hljs-number">0</span>&#125;);<br>    test.<span class="hljs-built_in">execute</span>(Insert&#123;<span class="hljs-string">&quot;sentient, hello world&quot;</span>, <span class="hljs-number">5</span>&#125;);<br><br>    test.<span class="hljs-built_in">verify</span>(<span class="hljs-built_in">BytesPending</span>(<span class="hljs-number">0</span>));<br>    test.<span class="hljs-built_in">verify</span>(<span class="hljs-built_in">BytesPushed</span>(<span class="hljs-number">27</span>));<br>    test.<span class="hljs-built_in">verify</span>(<span class="hljs-built_in">ReadAll</span>(<span class="hljs-string">&quot;I am sentient, hello world!&quot;</span>));<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><strong>架构验证要点</strong>：</p>
+<ol type="1">
+<li>高优先级数据覆盖机制</li>
+<li>缓冲区自动合并能力</li>
+<li>接收窗口动态调整</li>
+<li>容量边界处理</li>
+</ol>
+<h3 id="设计模式启示">设计模式启示</h3>
+<ol type="1">
+<li>写时合并(Write-Merge)优于先写后存</li>
+<li>批量处理模式提升吞吐量</li>
+<li>虚拟化思想降低数据迁移成本</li>
+<li>统一缓冲区简化状态管理</li>
+</ol>
+<h2 id="check-2">Check 2</h2>
+<h3 id="wrap_int">Wrap_int</h3>
+<h4 id="基础概念">基础概念</h4>
+<ul>
+<li>序列号回绕：32 位序列号达到最大值（0xFFFFFFFF）后归零的特性</li>
+<li>绝对序列号：理论上的无限增长计数器（实际用 uint64_t 表示）</li>
+<li>checkpoint：最近已知的绝对序列号，用于解决回绕歧义</li>
+</ul>
+<h4 id="wrap-uint64_t-n-wrap32-zero_point">wrap( uint64_t n, Wrap32
+zero_point )</h4>
+<p>将绝对序列号（uint64_t）转换为 32 位序列号时，通过
+<code>static_cast&lt;uint32_t&gt;</code> 实现隐式模 2³²
+运算，这与无符号整型的自然溢出特性完全等价。</p>
+<h4 id="unwrap-wrap32-zero_point-uint64_t-checkpoint">unwrap( Wrap32
+zero_point, uint64_t checkpoint )</h4>
+<p>目的是解封装，将原始seq转为绝对序列号。</p>
+<p>由于 uint32_t
+存在回绕的特性，即累计至最大值后继续增加将变为0。因此需要通过 checkpoint
+辅助确定当前是第几次回绕。</p>
+<p>首先直接计算 raw_value 和 zero.raw_value 的差值，如果大于 checkpoint
+认为没有发生回绕。然而如果小于 checkpoint，根据 TCP seq
+只增不减的特点认为是发生了回绕。</p>
+<p>由于要求计算最接近 checkpoint
+的可能值，采用四舍五入的方式估计当前是第 k 次回绕。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">constexpr</span> <span class="hljs-type">uint64_t</span> HALF_UINT32 = <span class="hljs-number">1UL</span> &lt;&lt; <span class="hljs-number">31</span>; <span class="hljs-comment">// 中点阈值</span><br><span class="hljs-keyword">constexpr</span> <span class="hljs-type">uint64_t</span> UINT32_RANGE = <span class="hljs-number">1UL</span> &lt;&lt; <span class="hljs-number">32</span>;<br><span class="hljs-type">const</span> <span class="hljs-type">uint64_t</span> wrap_count = ( checkpoint - offset + HALF_UINT32 ) / UINT32_RANGE;<br></code></pre></td></tr></table></figure>
+<h5 id="为什么需要四舍五入">为什么需要四舍五入</h5>
+<p>将数轴按 MOD 长度分段后，四舍五入操作相当于寻找距离 checkpoint -
+offset 最近的 MOD 分界点：</p>
+<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs gherkin">|<span class="hljs-string">-----</span>|<span class="hljs-string">-----</span>|<span class="hljs-string">-----</span>|<span class="hljs-string">-----</span>|<span class="hljs-string">-----</span>|<span class="hljs-string">-----</span>|<br>0     MOD/2  MOD  3MOD/2 2MOD ...<br>       ↑<br>     中点:HALF_UINT32<br></code></pre></td></tr></table></figure>
+<p>在计算中，由于除法是整数除法。直接进行
+<code>(checkpoint-offset)/UINT32_RANGE</code> 会丢弃小数部分（5.4-&gt;5;
+5.6-&gt;6），进而出现一个周期的偏差。</p>
+<p>以下代码可以模拟这种情况：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python3">MOD = 2**32<br>checkpoint = 5*MOD + 1500  # 第5周期中的序列<br>offset = 3000              # 相对偏移<br><br># 正确四舍五入计算：<br>k_true = (checkpoint - offset + MOD//2) // MOD  # → 5<br>abs_seq = offset + k_true*MOD # 21474839480<br><br># 错误截断计算：<br>k_wrong = (checkpoint - offset) // MOD  # → 4<br>abs_seq_wrong = offset + k_wrong*MOD # 17179872184<br></code></pre></td></tr></table></figure>
+<h3 id="tcp-receiver">TCP Receiver</h3>
+<h4 id="ackno">ackno</h4>
+<p>根据RFC
+793，控制标志的序列号消耗与数据载荷无关，每个控制标志占用1个序列号位置。因此
+ackno 中，需要留意判断是否徐娅在已经写入字节数中加上SYN占用的1序号。</p>
+<p>同时，对于FIN的情况要复杂一些，因为FIN抵达后，如果实际数据没有全部抵达，FIN
+的 1 序号不应加入 ACKNO，需要实际完成写入后加上。</p>
+<h2 id="check3">Check3</h2>
+<h3 id="tcp-sender">TCP Sender</h3>
+<h4 id="设计任务">设计任务</h4>
+<ol type="1">
+<li>跟踪接收窗口的大小。</li>
+<li>从 ByteStream
+中读取数据，尽可能的填充接收窗口直到接收窗口为0或字节流结束。</li>
+<li>必要时添加 SYN 和 FIN 标志。</li>
+<li>跟踪发送了但未返回 ACK 的 segment。</li>
+<li>实现超时重传（定时检查最旧的已发送未确认报文是否被接收）。</li>
+</ol>
+<p>一句话：什么时候发送什么东西，要不要重发？</p>
+<h4 id="有用的函数">有用的函数</h4>
+<ol type="1">
+<li>TCPSender tick 将被定时调用，用来传递上次调用 tick
+过去的时间。使用其来维护整个 TCPSender 的生存时间。</li>
+<li>TCPSender 构造函数将赋予 RTO，即超时重传时间，但 RTO
+可能会变化。</li>
+<li>实现一个 timer，用于标志数据报超时。</li>
+<li>当接收到 ACK 时，停止对应的 timer。</li>
+<li>tick 的工作方式如下：
+<ul>
+<li>重传最旧的未确认报文。</li>
+<li>需要跟踪<strong>连续重传次数</strong>，必要时进行增加以便
+TCPConnection 能决定是否中断 TCP。</li>
+<li>超时发送时，将 RTO 翻倍，执行“指数避退”。</li>
+<li>发送超时报文时需要重置超时计时器，使其在 RTO 后过期。</li>
+</ul></li>
+<li>当接收到一个新的 ACK 时，需要进行以下步骤：
+<ul>
+<li>将 RTO 改为初始值。</li>
+<li>重设所有还在等待的超时定时器。</li>
+<li>清空连续重传次数。</li>
+</ul></li>
+</ol>
+<h4 id="注意事项">注意事项：</h4>
+<h5 id="push">push</h5>
+<ul>
+<li>通过 transmit 发送数据，同时数据包尽可能接近
+TCPConfig::MAX_PAYLOAD_SIZE 大小。</li>
+<li>当接收窗口为 0 时，继续发送大小为 1
+的探测报文。同时，首次发送时假定窗口大小为 1,发送空报文。</li>
+<li>本 lab 不考虑数据报的部分被接收的情况。</li>
+<li>不考虑为了优化性能，重组数据报的情况。</li>
+</ul>
+<p><strong>区分“满窗口”与“零窗口”</strong>：</p>
+<ul>
+<li>若飞行中的数据量等于接收窗口，则禁止发送新数据（包括探测报文）；<br />
+</li>
+<li>零窗口探测仅在ACK明确表示接收窗口为 0 时触发。</li>
+</ul>
+<p>关于探测报文：</p>
+<ul>
+<li>探测报文不会导致指数避退。</li>
+<li>实现中，只有当上一个探测报文被接受才继续发送新的探测报文。</li>
+</ul>
+<h5 id="receive">receive</h5>
+<p>返回ACK和窗口大小。注意，ACK 为累计确认。</p>
+<h5 id="tick">tick</h5>
+<p>通过 ms_since_last_tick
+返回距离上一次调用过去的时间，用于实现超时重传。</p>
 
                 
               </div>
@@ -434,7 +513,7 @@ malloc()
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/CSAPP/" class="print-no-link">#CSAPP</a>
+        <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" class="print-no-link">#计算机网络</a>
       
     </div>
   
@@ -446,8 +525,8 @@ malloc()
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>CSAPP-虚拟内存</div>
-      <div>https://blog.hydrogenroom.icu/post/7f002141.html</div>
+      <div>CS144-总结</div>
+      <div>https://blog.hydrogenroom.icu/post/ff679777.html</div>
     </div>
     <div class="license-meta">
       
@@ -459,7 +538,7 @@ malloc()
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年12月9日</div>
+          <div>2025年3月10日</div>
         </div>
       
       
@@ -503,18 +582,12 @@ malloc()
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/post/ff679777.html" title="CS144-总结">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">CS144-总结</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/post/6738efd6.html" title="CSAPP-异常控制流">
-                        <span class="hidden-mobile">CSAPP-异常控制流</span>
+                      <a href="/post/7f002141.html" title="CSAPP-虚拟内存">
+                        <span class="hidden-mobile">CSAPP-虚拟内存</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -571,12 +644,6 @@ malloc()
 
 
   
-
-
-  
-  
-
-
 
 
 
@@ -795,49 +862,6 @@ malloc()
 
 
   <script>Fluid.plugins.imageCaption();</script>
-
-  
-      <script>
-        if (!window.MathJax) {
-          window.MathJax = {
-            tex    : {
-              inlineMath: { '[+]': [['$', '$']] }
-            },
-            loader : {
-              load: ['ui/lazy']
-            },
-            options: {
-              renderActions: {
-                insertedScript: [200, () => {
-                  document.querySelectorAll('mjx-container').forEach(node => {
-                    let target = node.parentNode;
-                    if (target.nodeName.toLowerCase() === 'li') {
-                      target.parentNode.classList.add('has-jax');
-                    }
-                  });
-                }, '', false]
-              }
-            }
-          };
-        } else {
-          MathJax.startup.document.state(0);
-          MathJax.texReset();
-          MathJax.typeset();
-          MathJax.typesetPromise();
-        }
-
-        Fluid.events.registerRefreshCallback(function() {
-          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
-            MathJax.startup.document.state(0);
-            MathJax.texReset();
-            MathJax.typeset();
-            MathJax.typesetPromise();
-          }
-        });
-      </script>
-    
-
-  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
 
   <script  src="/js/local-search.js" ></script>
 
